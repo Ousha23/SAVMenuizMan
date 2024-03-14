@@ -33,43 +33,43 @@
                     <div class="divForm">
                         <form class="row justify-content-center" action="" method="">
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="idNumTicket">Numéro de ticket</label>
-                                    <input type="text" class="form-control custom-input" name="numTicket" id="idNumTicket">
+                                <div class="form-group row m-2" >
+                                    <label  class="col-lg-4" for="idNumTicket">Numéro de ticket</label>
+                                    <input class="col-lg-8" type="text" class="form-control custom-input" name="numTicket" id="idNumTicket">
                                 </div>
-                                <div class="form-group">
-                                    <label for="idDate">Date du ticket</label>
-                                    <input type="date" class="form-control custom-input" name="dateTicket" id="idDate">
+                                <div class="form-group row m-2">
+                                    <label class="col-lg-4" for="idDate">Date du ticket</label>
+                                    <input class="col-lg-8" type="date" class="form-control custom-input" name="dateTicket" id="idDate">
                                 </div>
-                                <div class="form-group">
-                                    <label for="idEtatTicket">Etat du ticket</label>
-                                    <select class="form-control custom-input" name="etatTicket" id="idEtatTicket">
+                                <div class="form-group row m-2">
+                                    <label class="col-lg-4" for="idEtatTicket">Etat du ticket</label>
+                                    <select class="col-lg-8" class="form-control custom-input" name="etatTicket" id="idEtatTicket">
                                         <option value="attente">En attente</option>
-                                        <option value="enCours">En cours</option>
-                                        <option value="traite">Traité</option>
+                                        <option value="enCours">Pris en charge</option>
+                                        <option value="cloture">Cloturé</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="idNumFact">Numéro de la facture</label>
-                                    <input type="text" class="form-control custom-input" name="numFact" id="idNumFact">
+                                <div class="form-group row m-2">
+                                    <label class="col-lg-4" for="idNumFact">Numéro de la facture</label>
+                                    <input class="col-lg-8" type="text" class="form-control custom-input" name="numFact" id="idNumFact">
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="idNumCmd">Numéro de la commande</label>
-                                    <input type="text" class="form-control custom-input" name="numCmd" id="idNumCmd">
+                                <div class="form-group row m-2">
+                                    <label class="col-lg-4" for="idNumCmd">Numéro de la commande</label>
+                                    <input class="col-lg-8" type="text" class="form-control custom-input" name="numCmd" id="idNumCmd">
                                 </div>
-                                <div class="form-group">
-                                    <label for="idCodeClt">Code client</label>
-                                    <input type="text" class="form-control custom-input" name="codeClt" id="idCodeClt">
+                                <div class="form-group row m-2">
+                                    <label class="col-lg-4" for="idCodeClt">Code client</label>
+                                    <input class="col-lg-8" type="text" class="form-control custom-input" name="codeClt" id="idCodeClt">
                                 </div>
-                                <div class="form-group">
-                                    <label for="idNomClt">Nom client</label>
-                                    <input type="text" class="form-control custom-input" name="nomClt" id="idNomClt">
+                                <div class="form-group row m-2">
+                                    <label class="col-lg-4" for="idNomClt">Nom client</label>
+                                    <input class="col-lg-8" type="text" class="form-control custom-input" name="nomClt" id="idNomClt">
                                 </div>
-                                <div class="form-group">
-                                    <label for="idVille">Ville</label>
-                                    <input type="text" class="form-control custom-input" name="nomVille" id="idVille">
+                                <div class="form-group row m-2">
+                                    <label class="col-lg-4" for="idVille">Ville</label>
+                                    <input class="col-lg-8" type="text" class="form-control custom-input" name="nomVille" id="idVille">
                                 </div>
                             </div> 
                             <div class="form-group text-center">
