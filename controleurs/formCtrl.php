@@ -1,5 +1,4 @@
 
-<pre>
 <?php
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -14,17 +13,28 @@
     $dateTicket = null; 
     $idDossier = null;
 
-    function estRenseigne($champs){
+    $actionGet = "accueil";
+
+    /**
+     * return 
+     *
+     * @param [type] $champs
+     * @return void
+     */
+    function estRenseigne($champs):bool{
         return isset($_POST[$champs]) && !empty($_POST[$champs]);
     }
 
     if(isset($_GET['action']) && isset($_POST['action'])){
         $actionPost = $_POST['action'];
+var_dump($_GET['action']);
 var_dump($actionPost);
+var_dump($actionGet);
 //die();   
         try {
             switch($actionPost){
                 case 'Rechercher':
+                    
                     if(estRenseigne('numTicket')){
                         $idTicket = $_POST['numTicket'];
                     }
@@ -43,17 +53,28 @@ var_dump($actionPost);
                     }
                     if(estRenseigne('numCmd')){
                         $idCommande = $_POST['numCmd'];
+                        $titreListe = "Liste des commandes";
                     }
-                    if(estRenseigne('numClt')){
+                    if(estRenseigne('nomClt')){
                         $nomClt = $_POST['nomClt'];
                     }
                     $tTickets = TicketMgr::searchTicket($idTicket,$idCommande,$nomClt,$statutTicket,$idFact,$dateTicket,$idDossier);
-var_dump($tTickets);
+//var_dump($tTickets);
+                    $titreListe = "Liste des tickets";
+                    require_once "../vues/view_listTicket.php";
                     break;
-            }
+
+                case "ouvrirTicket" :
+                    $titreForme = "Ouvrir un Ticket";
+                    require_once "../vues/view_form.php";
+                    break;
+            }   
         } catch (PDOException $e){
             $msgErreur = $e->getMessage();
 echo $msgErreur;
         }
-            
+    } else {
+        $titreForme = "Bienvenue";
+        require_once "../vues/view_form.php";
     }
+    

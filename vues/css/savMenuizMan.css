@@ -7,7 +7,7 @@ main {
   }
 
   body::after {
-    background-image: url('vues/images/Menuiz Man.png');
+    background-image: url('../vues/images/MenuizMan.png');
     background-size: cover;
     background-position: center;
     position: absolute;
