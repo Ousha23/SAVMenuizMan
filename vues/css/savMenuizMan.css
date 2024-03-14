@@ -7,7 +7,6 @@ main {
   }
 
   body::after {
-   
     background-image: url('vues/images/Menuiz Man.png');
     background-size: cover;
     background-position: center;
@@ -20,13 +19,11 @@ main {
     z-index: -1;
   }
 
-
   .custom-header {
     background-color: #ffffff;
     border-bottom: 1px solid #395395;
     color: #395395;
     max-height: 90px;
-    
   }
   
   .custom-footer {
@@ -49,40 +46,39 @@ main {
     justify-content: center;
     align-items: center;
     margin-top: 10%;
-   
-    
+  }
+
+  .custom-submit-btn {
+    background-color: #395395;
+    border: 2px solid #395395;
+    color: #ffffff;
+    box-shadow: 2px 2px 5px #395395;
+    border-radius: 10px;
+    margin-top: 10px;
+    min-width: 40%;
+  }
+
+  .custom-submit-btn:hover {
+    background-color: #ffffff;
+    border: 2px solid #ffffff;
+    color: #395395;
+  }
+
+  h2 {
+    color: #395395;
   }
   
   .custom-input {
     border: 1px solid #395395;
     border-radius: 2px;
-    background-color: #ffffff;
-    
+    background-color: #ffffff; 
   }
 
-  .custom-submit-btn {
-
-  background-color: #395395;
-  border: 2px solid #395395;
-  color: #ffffff;
-  box-shadow: 2px 2px 5px #395395;
-  border-radius: 10px;
-  margin-top: 10px;
-  min-width: 40%;
-}
-
-.custom-submit-btn:hover {
-  background-color: #ffffff;
-  border: 2px solid #ffffff;
-  color: #395395;
-}
   .custom-icon {
     font-size: 24px;
     color: #395395;
   }
 
   .custom-logo {
-
     padding-top: 15px;
- 
   }
