@@ -3,8 +3,8 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
     require_once "BDDMgr.class.php";
-    
-        function searchTicket(?int $idTicket, ?int $idCommande, ?string $nomClt, ?string $statutTicket, ?int $idFact, ?string $dateTicket, ?string $idDossier) {
+    class TicketMgr {
+        public static function searchTicket(?int $idTicket, ?int $idCommande, ?string $nomClt, ?string $statutTicket, ?int $idFact, ?string $dateTicket, ?string $idDossier) {
             $queryParams = [];
             $bdd = BDDMgr::getBDD();
 
@@ -36,8 +36,11 @@
             }
             if ($dateTicket != null){
                 //TODO à revoir 
-                $sql .= "AND dateTicket = STR_TO_DATE('".$dateTicket."', '%d/%m/%Y')";
+                //$sql .= "AND dateTicket = STR_TO_DATE('".$dateTicket."', '%d/%m/%Y')";
                 //$queryParams[]= "STR_TO_DATE('".$dateTicket."', '%d/%m/%Y')";
+                $sql .= "AND dateTicket LIKE ? ";
+                $queryParams[]='%'.$dateTicket.'%';
+
             }
             if ($idDossier != null){
                 $sql .= "AND idDossier LIKE ?";
@@ -49,10 +52,12 @@
             $resultat->execute($queryParams);
 
             $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
-            echo $sql;
+//echo $sql;
             return $tResultat;
     }
+}
+
     
-    $test = searchTicket(null,null,null,null,null,"13/03/2024", null);?>
-    <pre><?=var_dump($test)?></pre>
+//$test = searchTicket(null,null,null,null,null,"13/03/2024", null);
+//var_dump($test);
     
