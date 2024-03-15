@@ -1,6 +1,5 @@
 <?php ob_start(); ?>
 <main>
-    <h2><?=$titreListe?></h2>
     <table id ="listeTickets" class="table table-striped table-bordered dataTable tableListeTicket" style="width:100%">
         <thead>
             <tr>
@@ -15,7 +14,9 @@
             </tr>
         </thead>
         <tbody>  
-        <?php foreach ($tTickets as $dataTicket):?>
+        <?php foreach ($tTickets as $dataTicket):
+        
+            ?>
             <tr>
                 <td><a href=""><?=$dataTicket['numCommande']?></a></td>
                 <td><a href=""><?=$dataTicket['nomClient']?></a></td>
@@ -34,7 +35,7 @@
     </form>
 </main>
 <?php
-    $pageTitle = "Liste de commandes et tickets";
+    $siteTitle = "Liste de commandes et tickets";
     $contenu = ob_get_contents(); 
     ob_end_clean();              
     require_once "../vues/gabarit.php";

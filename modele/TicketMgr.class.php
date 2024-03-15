@@ -1,3 +1,4 @@
+<!-- <pre> -->
 <?php
     
     require_once "BDDMgr.class.php";
@@ -24,27 +25,27 @@
                 LEFT JOIN Ticket T ON C.numCommande = T.numCommande
                 LEFT JOIN Utilisateur U ON U.idUtilisateur = T.idUtilisateur
                 WHERE 1=1 ";
-                if ($idTicket != null){
-                    $sql .= "AND T.idTicketSAV LIKE ? ";
-                    $queryParams[]='%'.$idTicket.'%';
+                if ($idTicket !== null){
+                    $sql .= "AND T.idTicketSAV = ? ";
+                    $queryParams[]=$idTicket;
                 }
-                if ($idCommande != null){
-                    $sql .= "AND C.numCommande LIKE ? ";
-                    $queryParams[]='%'.$idCommande.'%';
+                if ($idCommande !== null){
+                    $sql .= "AND C.numCommande = ? ";
+                    $queryParams[]=$idCommande;
                 } 
-                if ($nomClt != null) {
+                if ($nomClt !== null) {
                     $sql .= "AND nomClient LIKE ? ";
                     $queryParams[]='%'.$nomClt.'%';
                 }
-                if ($statutTicket != null){
+                if ($statutTicket !== null){
                     $sql .= "AND statutTicket LIKE ? ";
                     $queryParams[]='%'.$statutTicket.'%';
                 }
-                if ($idFact != null){
-                    $sql .= "AND numFact LIKE ? ";
-                    $queryParams[]='%'.$idFact.'%';
+                if ($idFact !== null){
+                    $sql .= "AND numFact = ? ";
+                    $queryParams[]=$idFact;
                 }
-                if ($dateTicket != null){
+                if ($dateTicket !== null){
                     //TODO à revoir 
                     //$sql .= "AND dateTicket = STR_TO_DATE('".$dateTicket."', '%d/%m/%Y')";
                     //$queryParams[]= "STR_TO_DATE('".$dateTicket."', '%d/%m/%Y')";
@@ -52,9 +53,9 @@
                     $queryParams[]='%'.$dateTicket.'%';
     
                 }
-                if ($idDossier != null){
-                    $sql .= "AND idDossier LIKE ?";
-                    $queryParams[]='%'.$idDossier.'%';
+                if ($idDossier !== null){
+                    $sql .= "AND idDossier = ?";
+                    $queryParams[]=$idDossier;
                 }
     
                 $resultat = $bdd->prepare($sql);
@@ -62,7 +63,8 @@
                 $resultat->execute($queryParams);
     
                 $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
-    //echo $sql;
+// echo $sql;
+// var_dump($queryParams);
                 return $tResultat;
             } catch (PDOException $e){
                 return $e->getMessage();

@@ -13,7 +13,7 @@
     $dateTicket = null; 
     $idDossier = null;
 
-    $actionGet = "accueil";
+    $actionPost = "accueil";
 
     /**
      * return 
@@ -21,51 +21,64 @@
      * @param [type] $champs
      * @return void
      */
-    function estRenseigne($champs):bool{
-        return isset($_POST[$champs]) && !empty($_POST[$champs]);
+    function estTxtRenseigne($champs): bool {
+        return isset($_POST[$champs]) && !empty($_POST[$champs]); 
+    }
+    function estNbrRenseigne($champs): bool {
+        return isset($_POST[$champs]) && ($_POST[$champs] !== '');
     }
 
-    if(isset($_GET['action']) && isset($_POST['action'])){
+    function retourForm($action){
+            if ($action == "accueil") $pageTitle = "Bienvenue dans l'espace de recherche";
+        require_once "../vues/view_form.php";
+    }
+
+    if(isset($_POST['action'])){
         $actionPost = $_POST['action'];
-var_dump($_GET['action']);
-var_dump($actionPost);
-var_dump($actionGet);
-//die();   
+//var_dump($actionPost);
+var_dump($_POST['numTicket']);
+//die(); 
         try {
             switch($actionPost){
                 case 'Rechercher':
-                    
-                    if(estRenseigne('numTicket')){
-                        $idTicket = $_POST['numTicket'];
-                    }
-                    if(estRenseigne('dateTicket')){
+                    $pageTitle = "Liste des commandes";
+                    if(estNbrRenseigne('numTicket')){
+                        $idTicket = (int)$_POST['numTicket'];
+                        
+var_dump($idTicket);
+                    } 
+                    if(estTxtRenseigne('dateTicket')){
                         $dateTicket = $_POST['dateTicket'];
 //var_dump($dateTicket);
-                    }
-                    if(isset($_POST['etatTicket'])){
+                        $pageTitle = "Liste des Tickets";
+                    } 
+                    if(estTxtRenseigne('etatTicket')){
                         $statutTicket = $_POST['etatTicket'];
-                    }
-                    if(isset($_POST['typeDossier'])){
+//var_dump($statutTicket);
+                        $pageTitle = "Liste des Tickets";
+                    } 
+                    if(estTxtRenseigne('typeDossier')){
                         $idDossier = $_POST['typeDossier'];
-                    }
-                    if(estRenseigne('numFact')){
-                        $idFact = $_POST['numFact'];
-                    }
-                    if(estRenseigne('numCmd')){
-                        $idCommande = $_POST['numCmd'];
-                        $titreListe = "Liste des commandes";
-                    }
-                    if(estRenseigne('nomClt')){
+                        $pageTitle = "Liste des Tickets";
+                    } 
+                    if(estNbrRenseigne('numFact')){
+                        $idFact = (int)$_POST['numFact'];
+                        $pageTitle = "Liste des Factures";
+                    } 
+                    if(estNbrRenseigne('numCmd')){
+                        $idCommande = (int)$_POST['numCmd'];
+                    } 
+                    if(estTxtRenseigne('nomClt')){
                         $nomClt = $_POST['nomClt'];
-                    }
+                    } 
                     $tTickets = TicketMgr::searchTicket($idTicket,$idCommande,$nomClt,$statutTicket,$idFact,$dateTicket,$idDossier);
 //var_dump($tTickets);
-                    $titreListe = "Liste des tickets";
+//var_dump($idTicket);
                     require_once "../vues/view_listTicket.php";
                     break;
 
-                case "ouvrirTicket" :
-                    $titreForme = "Ouvrir un Ticket";
+                case "ajouterTicket" :
+                    $pageTitle = "Création d'un nouveau Ticket";
                     require_once "../vues/view_form.php";
                     break;
             }   
@@ -74,7 +87,6 @@ var_dump($actionGet);
 echo $msgErreur;
         }
     } else {
-        $titreForme = "Bienvenue";
-        require_once "../vues/view_form.php";
+        retourForm($actionPost);
     }
     

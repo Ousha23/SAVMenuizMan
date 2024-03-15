@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $pageTitle; ?> - <?php echo $siteTitle; ?></title>
+    <title><?php echo $pageTitle; ?> </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="../vues/css/savMenuizMan.css">
@@ -29,13 +29,13 @@
       </div>
     </div>
   </header>
-   
+  <h2 class="text-center custom-title"><?= $pageTitle ?></h2>
    <?= @$contenu ?>
     
-   <footer class="container-fluid custom-footer p-3 mt-5">
+   <footer class="container-fluid custom-footer p-3 mt-auto">
     <div class="row justify-content-center">
       <div class="col-md-6 text-center">
-        <p ><i class="far fa-copyright"></i> By Bouchra, Leila et Thierry</p>
+        <p class=""><i class="far fa-copyright "></i> By Bouchra, Leila et Thierry</p>
       </div>
     </div>
   </footer>
