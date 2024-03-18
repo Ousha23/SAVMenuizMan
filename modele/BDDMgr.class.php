@@ -1,21 +1,33 @@
 <?php
+
+    require_once('ModelException.php');
+
     class BDDMgr {
+        private static $bdd;
+    
         public static function getBDD() {
-            $cheminFichier = "../param.ini";
-            if (!file_exists($cheminFichier)) {
-                throw new Exception("Aucun fichier de configuration trouvé");
+            if (self::$bdd !== null) {
+                return self::$bdd;
             }
-            else {
-                $tParametres = parse_ini_file($cheminFichier, true);
-                //extract($tParametres['BDD']);
-                //extract($tParametres['BD']);
-                $dsn = 'mysql:host='.$host.';port='.$port.';dbname='.$dbname.';charset=utf8';
-                try {
-                    $bdd =new PDO($dsn, $login, $mdp , array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-                    return $bdd;
-                } catch (PDOException $e){
-                    return $e->getMessage();
-                }  
+    
+            $cheminFichier = "param.ini";
+            if (!file_exists($cheminFichier)) {
+                throw new ModeleException("Aucun fichier de configuration trouvé");
+            }else{ 
+    
+            $tParametres = parse_ini_file($cheminFichier, true);
+    
+            extract($tParametres['BDD']);
+            $dsn = 'mysql:host='.$host.';port='.$port.';dbname='.$dbname.';charset=utf8';
+            try {
+                self::$bdd = new PDO($dsn, $login, $mdp, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+                return self::$bdd;
+            } catch (PDOException $e) {
+                // Log l'erreur dans un fichier par exemple
+                throw new Exception("Impossible de se connecter à la base de données");
             }
         }
+
     }
+    }
+    

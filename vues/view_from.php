@@ -1,33 +1,16 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAVMenuizMan</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
-  <link rel="stylesheet" href="css/savMenuizMan.css">
-  <link rel="stylesheet" href="css/form.css">
-</head>
-<body>
-  <!-- Header -->
-  <header class="container-fluid custom-header p-3">
-    <div class="row align-items-center">
-      <div class="col-md-6">
-        <a href="#" class="text-decoration-none text-dark">
-          <img src="path/to/logo.png" alt="Logo" height="30">
-        </a>
-      </div>
-      <div class="col-md-6 text-right">
-        <a href="#" class="text-decoration-none text-dark">
-          <i class="fas fa-user custom-icon"></i> Connexion
-        </a>
-      </div>
-    </div>
-  </header>
+<?php ob_start();?>
+
+<?php $pageTitle ="Rechercher un ticket" ; ?>
+  <?php $siteTitle ="admin"; ?>
+
+  <?php
+$connexion = "admin" ;
+?>
+
+
     <main class=justify-content-center>
         <div class="container-fluid">
-        <h2 class="text-center">Rechercher un ticket</h2>
+       
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="divForm">
@@ -84,18 +67,8 @@
             </div>
         </div>
     </main>
-    <!-- Footer -->
-  <footer class="container-fluid custom-footer p-3 mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6 text-center">
-        <p>Phrase simple dans le footer</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+    <?php
+$contenu = ob_get_contents(); 
+ob_end_clean();              
+require("gabarit.php");
+?>
