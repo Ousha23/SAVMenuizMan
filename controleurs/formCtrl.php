@@ -14,6 +14,7 @@
     $idDossier = null;
 
     $actionPost = "accueil";
+    $idUser = 2;
 
     /**
      * return 
@@ -28,8 +29,11 @@
         return isset($_POST[$champs]) && ($_POST[$champs] !== '');
     }
 
-    function retourForm($action,$msg){
-        $pageTitle = "Bienvenue dans l'espace de recherche";
+    function retourForm($action,$titrePage,$msg){
+
+//var_dump($_POST["action"]);
+        $actionPost = $action;
+        $pageTitle = $titrePage;
         $msgErreur = $msg;
         require_once "../vues/view_form.php";
     }
@@ -40,25 +44,25 @@
 //var_dump($_POST['numTicket']);
 //die(); 
             switch($actionPost){
+                case 'accueil':
+                    $pageTitle = "Bienvenue dans l'espace de recherche";
+                    retourForm($actionPost,$pageTitle,"");
                 case 'Rechercher':
-                    $pageTitle = "Liste des commandes";
+                    $pageTitle = "Liste des Tickets";
                     if(estNbrRenseigne('numTicket')){
                         $idTicket = (int)$_POST['numTicket'];    
-var_dump($idTicket);
+//var_dump($idTicket);
                     } 
                     if(estTxtRenseigne('dateTicket')){
                         $dateTicket = $_POST['dateTicket'];
 //var_dump($dateTicket);
-                        $pageTitle = "Liste des Tickets";
                     } 
                     if(estTxtRenseigne('etatTicket')){
                         $statutTicket = $_POST['etatTicket'];
 //var_dump($statutTicket);
-                        $pageTitle = "Liste des Tickets";
                     } 
                     if(estTxtRenseigne('typeDossier')){
                         $idDossier = $_POST['typeDossier'];
-                        $pageTitle = "Liste des Tickets";
                     } 
                     if(estNbrRenseigne('numFact')){
                         $idFact = (int)$_POST['numFact'];
@@ -66,6 +70,7 @@ var_dump($idTicket);
                     } 
                     if(estNbrRenseigne('numCmd')){
                         $idCommande = (int)$_POST['numCmd'];
+                        $pageTitle = "Liste des commandes";
                     } 
                     if(estTxtRenseigne('nomClt')){
                         $nomClt = $_POST['nomClt'];
@@ -75,18 +80,112 @@ var_dump($idTicket);
 //var_dump($tTickets);
 //var_dump($idTicket);
                     } catch (PDOException $e){
-                        $msgErreur ="Erreur : ".$e->getMessage();
-                        retourForm($actionPost, $msgErreur);
+                        $msgErreur ="Erreur : Merci de contacter un Administrateur.";
+                        error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
+                        retourForm($actionPost,$pageTitle, $msgErreur);
                     }
                     require_once "../vues/view_listTicket.php";
                     break;
 
                 case "ajouterTicket" :
+                    $msg = "";
                     $pageTitle = "Création d'un nouveau Ticket";
-                    retourForm($actionPost,"");
+                    retourForm($actionPost,$pageTitle,$msg);
                     break;
-            }   
+                
+                case "ajouterTicketMAJ" :
+                    $pageTitle = "Bienvenue dans l'espace de recherche";
+                    if (estTxtRenseigne('descTicket') && estTxtRenseigne('typeDossier')) {
+                        echo "niveau 1";
+                        $typeTicket = $_POST['typeDossier'];
+                        $descTicket = $_POST['descTicket'];
+                        if ((estNbrRenseigne('numFact') && !empty($_POST['numFact'])) || ((estNbrRenseigne('numCmd') && !empty($_POST['numCmd'])))) {
+                            if (estNbrRenseigne('numFact') && estNbrRenseigne('numCmd')){
+                                $idFact = $_POST['numFact'];
+                                $idCmd = $_POST['numCmd'];
+                                try {
+                                    $idCmdByFact = TicketMgr::getNumCmdByFact($idFact);
+                                } catch (PDOException $e){
+                                    $msgErreur ="Erreur : Merci de contacter un Administrateur.";
+                                    error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
+                                    break;
+                                }
+                                if (!empty($idCmdByFact)) {
+                                    if ($idCmd === $idCmdByFact[0]["numCommande"]) $idCmd = $idCmdByFact[0]["numCommande"];
+                                    else {
+                                        $msg = "Le numéro de Commande renseigné ne correspond à aucune Facture. Merci de vérifier.";
+                                        $pageTitle = "Création d'un nouveau Ticket";
+                                        $actionPost = "ajouterTicket";
+                                        retourForm($actionPost, $pageTitle, $msg);
+                                        break;
+                                    }
+                                } else {
+                                    $msg = "Le numéro de facture renseigné ne correspond à aucune commande. Merci de vérifier.";
+                                    $pageTitle = "Création d'un nouveau Ticket";
+                                    $actionPost = "ajouterTicket";
+                                    retourForm($actionPost, $pageTitle, $msg);
+                                    break;
+                                }
+                            } else if (estNbrRenseigne('numFact')) {
+                                $idFact = $_POST['numFact'];
+                                try {
+                                    $idCmdByFact = TicketMgr::getNumCmdByFact($idFact);
+                                } catch (PDOException $e){
+                                    $msgErreur ="Erreur : Merci de contacter un Administrateur.";
+                                    error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
+                                    break;
+                                }
+                                
+                                if (!empty($idCmd)) {
+                                    $idCmd = $idCmdByFact[0]["numCommande"];
+                                } else {
+                                    $msg = "Le numéro de facture renseigné ne correspond à aucune commande. Merci de vérifier.";
+                                    $pageTitle = "Création d'un nouveau Ticket";
+                                    $actionPost = "ajouterTicket";
+                                    retourForm($actionPost, $pageTitle, $msg);
+                                    break;
+                                }
+//var_dump($idCmdByFact);
+                            } else {
+                                $idCmd = $_POST['numCmd'];
+                                if (!TicketMgr::getCmd($idCmd)) {
+                                    $msg = "Le numéro de Commande renseigné ne correspond à aucune commande. Merci de vérifier.";
+                                    $pageTitle = "Création d'un nouveau Ticket";
+                                    $actionPost = "ajouterTicket";
+                                    retourForm($actionPost, $pageTitle, $msg);
+                                    break;
+                                }
+                            }
+//var_dump($idCmd);
+                        } else {
+                            $msg = "Vous devez renseigner un numéro de facture ou un numéro de commande valide pour créer le ticket.";
+                            $pageTitle = "Création d'un nouveau Ticket";
+                            $actionPost = "ajouterTicket";
+                            retourForm($actionPost, $pageTitle, $msg);
+                            break;
+                        }
+                        try {
+                            $nvTicket = TicketMgr::addTicket($descTicket, $typeTicket, $idCmd, $idUser);
+                            $msg = "Ajout effectué avec succès. Numéro du Ticket : " . $nvTicket;
+                            $actionPost = "accueil";
+                            retourForm($actionPost, $pageTitle, $msg);
+                        } catch (PDOException $e) {
+                            $msgErreur = "Erreur : Merci de contacter un Administrateur.";
+                            error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
+                            retourForm($actionPost, $pageTitle, $msgErreur);
+                            break;
+                        }
+                    } else {
+                        $msg = "Merci de renseigner tous les champs et un numéro de commande ou de facture valide pour pouvoir créer le ticket.";
+                        $pageTitle = "Création d'un nouveau Ticket";
+                        $actionPost = "ajouterTicket";
+                        retourForm($actionPost, $pageTitle, $msg);
+                        break;
+                    }
+                }                
     } else {
-        retourForm($actionPost,"");
+        $msg = "";
+        $pageTitle = "Bienvenue dans l'espace de recherche";
+        retourForm($actionPost,$pageTitle,$msg);
     }
     
