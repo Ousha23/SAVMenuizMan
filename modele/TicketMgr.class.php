@@ -13,12 +13,11 @@
          * @param integer|null $idFact
          * @param string|null $dateTicket
          * @param string|null $idDossier
-         * @return void
+         * @return array
          */
-        public static function searchTicket(?int $idTicket, ?int $idCommande, ?string $nomClt, ?string $statutTicket, ?int $idFact, ?string $dateTicket, ?string $idDossier) {
+        public static function searchTicket(?int $idTicket, ?int $idCommande, ?string $nomClt, ?string $statutTicket, ?int $idFact, ?string $dateTicket, ?string $idDossier):array {
             $queryParams = [];
             $bdd = BDDMgr::getBDD();
-            try {
                 $sql = "SELECT T.idTicketSAV, C.numCommande, nomClient, statutTicket, numFact, dateTicket, idDossier, nomUtilisateur FROM `Commande` C
                 INNER JOIN Client Clt ON Clt.idClient = C.idClient
                 LEFT JOIN Facture F ON F.numCommande = C.numCommande
@@ -66,9 +65,6 @@
 // echo $sql;
 // var_dump($queryParams);
                 return $tResultat;
-            } catch (PDOException $e){
-                return $e->getMessage();
-            }
     }
 }
 

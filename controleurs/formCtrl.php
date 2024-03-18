@@ -28,23 +28,22 @@
         return isset($_POST[$champs]) && ($_POST[$champs] !== '');
     }
 
-    function retourForm($action){
-            if ($action == "accueil") $pageTitle = "Bienvenue dans l'espace de recherche";
+    function retourForm($action,$msg){
+        $pageTitle = "Bienvenue dans l'espace de recherche";
+        $msgErreur = $msg;
         require_once "../vues/view_form.php";
     }
 
     if(isset($_POST['action'])){
         $actionPost = $_POST['action'];
 //var_dump($actionPost);
-var_dump($_POST['numTicket']);
+//var_dump($_POST['numTicket']);
 //die(); 
-        try {
             switch($actionPost){
                 case 'Rechercher':
                     $pageTitle = "Liste des commandes";
                     if(estNbrRenseigne('numTicket')){
-                        $idTicket = (int)$_POST['numTicket'];
-                        
+                        $idTicket = (int)$_POST['numTicket'];    
 var_dump($idTicket);
                     } 
                     if(estTxtRenseigne('dateTicket')){
@@ -70,23 +69,24 @@ var_dump($idTicket);
                     } 
                     if(estTxtRenseigne('nomClt')){
                         $nomClt = $_POST['nomClt'];
-                    } 
+                    }
+                    try{
                     $tTickets = TicketMgr::searchTicket($idTicket,$idCommande,$nomClt,$statutTicket,$idFact,$dateTicket,$idDossier);
 //var_dump($tTickets);
 //var_dump($idTicket);
+                    } catch (PDOException $e){
+                        $msgErreur ="Erreur : ".$e->getMessage();
+                        retourForm($actionPost, $msgErreur);
+                    }
                     require_once "../vues/view_listTicket.php";
                     break;
 
                 case "ajouterTicket" :
                     $pageTitle = "Création d'un nouveau Ticket";
-                    require_once "../vues/view_form.php";
+                    retourForm($actionPost,"");
                     break;
             }   
-        } catch (PDOException $e){
-            $msgErreur = $e->getMessage();
-echo $msgErreur;
-        }
     } else {
-        retourForm($actionPost);
+        retourForm($actionPost,"");
     }
     

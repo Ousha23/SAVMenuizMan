@@ -1,6 +1,7 @@
 <?php ob_start(); ?>
     <main class=justify-content-center>
         <div class="container-fluid">
+            <h3 class="text-center"><?=$msgErreur?></h3>
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="divForm">
