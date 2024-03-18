@@ -20,74 +20,62 @@
         public static function searchTicket(?int $idTicket, ?int $idCommande, ?string $nomClt, ?string $statutTicket, ?int $idFact, ?string $dateTicket, ?string $idDossier):array {
             $queryParams = [];
             $bdd = BDDMgr::getBDD();
-            try {
-                $sql = "SELECT T.idTicketSAV, C.numCommande, nomClient, statutTicket, numFact, dateTicket, idDossier, nomUtilisateur FROM `Commande` C
+            $sql = "SELECT T.idTicketSAV, C.numCommande, nomClient, statutTicket, numFact, dateTicket, idDossier, nomUtilisateur FROM `Commande` C
                 INNER JOIN Client Clt ON Clt.idClient = C.idClient
                 LEFT JOIN Facture F ON F.numCommande = C.numCommande
                 LEFT JOIN Ticket T ON C.numCommande = T.numCommande
                 LEFT JOIN Utilisateur U ON U.idUtilisateur = T.idUtilisateur
                 WHERE 1=1 ";
-                if ($idTicket !== null){
-                    $sql .= "AND T.idTicketSAV = ? ";
-                    $queryParams[]=$idTicket;
-                }
-                if ($idCommande !== null){
-                    $sql .= "AND C.numCommande = ? ";
-                    $queryParams[]=$idCommande;
-                } 
-                if ($nomClt !== null) {
-                    $sql .= "AND nomClient LIKE ? ";
-                    $queryParams[]='%'.$nomClt.'%';
-                }
-                if ($statutTicket !== null){
-                    $sql .= "AND statutTicket LIKE ? ";
-                    $queryParams[]='%'.$statutTicket.'%';
-                }
-                if ($idFact !== null){
-                    $sql .= "AND numFact = ? ";
-                    $queryParams[]=$idFact;
-                }
-                if ($dateTicket !== null){
-                    //TODO à revoir 
-                    //$sql .= "AND dateTicket = STR_TO_DATE('".$dateTicket."', '%d/%m/%Y')";
-                    //$queryParams[]= "STR_TO_DATE('".$dateTicket."', '%d/%m/%Y')";
-                    $sql .= "AND dateTicket LIKE ? ";
-                    $queryParams[]='%'.$dateTicket.'%';
-    
-                }
-                if ($idDossier !== null){
-                    $sql .= "AND idDossier = ?";
-                    $queryParams[]=$idDossier;
-                }
-    
-                $resultat = $bdd->prepare($sql);
-    
-                $resultat->execute($queryParams);
-    
-                $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
+            if ($idTicket !== null){
+                $sql .= "AND T.idTicketSAV = ? ";
+                $queryParams[]=$idTicket;
+            }
+            if ($idCommande !== null){
+                $sql .= "AND C.numCommande = ? ";
+                $queryParams[]=$idCommande;
+            } 
+            if ($nomClt !== null) {
+                $sql .= "AND nomClient LIKE ? ";
+                $queryParams[]='%'.$nomClt.'%';
+            }
+            if ($statutTicket !== null){
+                $sql .= "AND statutTicket LIKE ? ";
+                $queryParams[]='%'.$statutTicket.'%';
+            }
+            if ($idFact !== null){
+                $sql .= "AND numFact = ? ";
+                $queryParams[]=$idFact;
+            }
+            if ($dateTicket !== null){
+                //TODO à revoir 
+                //$sql .= "AND dateTicket = STR_TO_DATE('".$dateTicket."', '%d/%m/%Y')";
+                //$queryParams[]= "STR_TO_DATE('".$dateTicket."', '%d/%m/%Y')";
+                $sql .= "AND dateTicket LIKE ? ";
+                $queryParams[]='%'.$dateTicket.'%';
+
+            }
+            if ($idDossier !== null){
+                $sql .= "AND idDossier = ?";
+                $queryParams[]=$idDossier;
+            }
+
+            $resultat = $bdd->prepare($sql);
+
+            $resultat->execute($queryParams);
+
+            $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
 // echo $sql;
 // var_dump($queryParams);
-                return $tResultat;
-            } catch (PDOException $e){
-                error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
-                return array();
-            }        
+            return $tResultat;      
         }
 
         public static function addTicket(string $descTicket, string $typeTicket, int $idCommande, int $idUser):int {
             $bdd = BDDMgr::getBDD();
-            try {
-                $sql = "INSERT INTO `Ticket`(`statutTicket`, `description`, `dateTicket`, `idUtilisateur`, `numCommande`, `idDossier`) VALUES (?,?,CURRENT_DATE,?,?,?)";
-                $resultat = $bdd->prepare($sql);
-                $resultat->execute(array('En attente',$descTicket,$idUser,$idCommande,$typeTicket));
-                $lastId = $bdd->lastInsertId();
-                return $lastId;
-            } catch (PDOException $e){
-                $e->getMessage();
-                return 0;
-                // throw new Exception ("Impossible d'effectuer la création. Merci de contacter un Administrateur.");
-            }
-            
+            $sql = "INSERT INTO `Ticket`(`statutTicket`, `description`, `dateTicket`, `idUtilisateur`, `numCommande`, `idDossier`) VALUES (?,?,CURRENT_DATE,?,?,?)";
+            $resultat = $bdd->prepare($sql);
+            $resultat->execute(array('En attente',$descTicket,$idUser,$idCommande,$typeTicket));
+            $lastId = $bdd->lastInsertId();
+            return $lastId;  
         }
 
         /**
@@ -98,36 +86,26 @@
          */
         public static function getNumCmdByFact(int $idFact) : array {
             $bdd = BDDMgr::getBDD();
-            try {
-                $sql = "SELECT `numCommande` FROM `Facture` WHERE numFact = ?;";
-                $resultat = $bdd->prepare($sql);
-                $resultat->execute(array($idFact));
-                $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
-                return $tResultat;
-            } catch (PDOException $e){
-                error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
-                return array();
-            }
+            $sql = "SELECT `numCommande` FROM `Facture` WHERE numFact = ?;";
+            $resultat = $bdd->prepare($sql);
+            $resultat->execute(array($idFact));
+            $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
+            return $tResultat;
         }
 
         /**
          * Recherche le num Commande renseigné au niveau de la BDD
          *
          * @param integer $idCmd
-         * @return boolean
+         * @return array
          */
-        public static function getCmd(int $idCmd):bool{
+        public static function getCmd(int $idCmd):array{
             $bdd = BDDMgr::getBDD();
-            try {
-                $sql = "SELECT `numCommande` FROM `Commande` WHERE `numCommande` = ?";
-                $resultat = $bdd->prepare($sql);
-                $resultat->execute(array($idCmd));
-                $resultat->fetchAll(PDO::FETCH_ASSOC);
-                return true;
-            } catch (PDOException $e){
-                error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
-                return false;
-            }
+            $sql = "SELECT `numCommande` FROM `Commande` WHERE `numCommande` = ?";
+            $resultat = $bdd->prepare($sql);
+            $resultat->execute(array($idCmd));
+            $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
+            return $tResultat;
         }
 
         // public static function getNomCltByFact(int $idFact) : array {

@@ -35,8 +35,7 @@ ob_start(); ?>
                                 <div class="col-md-6">
                                     <fieldset class="row justify-content-center">
                                         <label class="col-md-12" for="idDescription">Description</label><br>
-                                        <textarea class="col-md-10" id="idDescription" name="descTicket" required rows="4">
-                                        </textarea>
+                                        <textarea class="col-md-10" id="idDescription" name="descTicket" required rows="4"></textarea>
                                     </fieldset>
                             <?php } ?>
                                     <div class="form-group">
