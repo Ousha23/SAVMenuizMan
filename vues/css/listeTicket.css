@@ -1,0 +1,30 @@
+.tableListeTicket th{
+    background-color: #4788C3;
+    border: 2px solid #395395;
+}
+
+.tableListeTicket td{
+    background-color: #92C0E9;
+    border: 1px solid #ffffff;   
+}
+
+table #listeTickets {
+    opacity: 0.9;
+}
+
+a{
+    color: #395395;
+    text-decoration: underline;
+}
+a:hover{
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+h2 {
+    text-align: center;
+}
+.test {
+    color: white;
+    border: 2px solid #395395;
+  }
