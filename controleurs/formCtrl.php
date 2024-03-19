@@ -17,7 +17,7 @@
     $idUser = 2;
 
     /**
-     * return 
+     * Verifie si le champs nbr n'est pas vide
      *
      * @param [type] $champs
      * @return void
@@ -25,10 +25,24 @@
     function estTxtRenseigne($champs): bool {
         return isset($_POST[$champs]) && !empty($_POST[$champs]); 
     }
+    /**
+     * Verifie si le champs nbr n'est vide
+     *
+     * @param [type] $champs
+     * @return boolean
+     */
     function estNbrRenseigne($champs): bool {
         return isset($_POST[$champs]) && ($_POST[$champs] !== '');
     }
 
+    /**
+     * Rederige vers le ctrleur avec les variables dont il a besoin
+     *
+     * @param [type] $action
+     * @param [type] $titrePage
+     * @param [type] $msg
+     * @return void
+     */
     function retourForm($action,$titrePage,$msg){
 
 //var_dump($_POST["action"]);
@@ -38,6 +52,23 @@
         require_once "../vues/view_form.php";
     }
 
+    if(isset($_GET['action'])){
+        $actionGet = $_GET['action'];
+        switch ($actionGet){
+            case "detailsCmd":
+                if(isset($_GET['numCmd'])){
+                    $numCmd = $_GET['numCmd'];
+                    require_once ("cmdCtrl.php");
+                    break;
+                }
+            case "detailsTicket":
+                if(isset($_GET['idTicketSAV'])){
+                    $idTicket = $_GET['idTicketSAV'];
+                    require_once ("");
+                    break;
+                }
+        }
+    } else {
     if(isset($_POST['action'])){
         $actionPost = $_POST['action'];
 //var_dump($actionPost);
@@ -88,6 +119,7 @@
                     break;
 
                 case "ajouterTicket" :
+                    
                     $msg = "";
                     $pageTitle = "Création d'un nouveau Ticket";
                     retourForm($actionPost,$pageTitle,$msg);
@@ -204,3 +236,4 @@ echo "niveau 3";
         retourForm($actionPost,$pageTitle,$msg);
     }
     
+    }

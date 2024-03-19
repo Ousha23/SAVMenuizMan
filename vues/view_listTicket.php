@@ -18,9 +18,9 @@
         
             ?>
             <tr>
-                <td><a href=""><?=$dataTicket['numCommande']?></a></td>
+                <td><a href="../controleurs/formCtrl.php?action=detailsCmd&numCmd=<?=$dataTicket['numCommande']?>"><?=$dataTicket['numCommande']?></a></td>
                 <td><a href=""><?=$dataTicket['nomClient']?></a></td>
-                <td><a href=""><?=$dataTicket['idTicketSAV']?></a></td>
+                <td><a href="../controleurs/formCtrl.php?action=detailsTicket&idTicket=<?=$dataTicket['idTicketSAV']?>"><?=$dataTicket['idTicketSAV']?></a></td>
                 <td><?=$dataTicket['statutTicket']?></td>
                 <td><?=$dataTicket['idDossier']?></td>
                 <td><?=$dataTicket['dateTicket']?></td>

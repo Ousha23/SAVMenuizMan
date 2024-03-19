@@ -53,7 +53,7 @@ ob_start(); ?>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="idNumFact">Numéro de la facture</label>
-                                        <input type="text" class="form-control custom-input" name="numFact" id="idNumFact" pattern="[0-9]*" title="Ce champs doit contenir uniquement des nombres">
+                                        <input type="text" class="form-control custom-input" name="numFact" id="idNumFact" pattern="[0-9]*" value="">
                                     </div>
                                     <div class="form-group">
                                         <label for="idNumCmd">Numéro de la commande</label>
@@ -80,10 +80,10 @@ ob_start(); ?>
                         </form>
                     </div>
                     <form class="row justify-content-center" action="../controleurs/formCtrl.php" method="POST">
-                        <?php if($actionPost == "accueil") { ?> 
-                        <input type="hidden" name="action" value="ajouterTicket">
-                        <input type="submit" class="btn btn-primary custom-submit-btn" value="Ouvrir un nouveau ticket">
-                        <?php } else { ?>
+                         <?php// if($actionPost == "accueil") { ?> 
+                        <!-- <input type="hidden" name="action" value="ajouterTicket">
+                        <input type="submit" class="btn btn-primary custom-submit-btn" value="Ouvrir un nouveau ticket"> -->
+                        <?php if($actionPost !== "accueil") { ?>
                         <input type="hidden" name="action" value="accueil">
                         <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour à la page de recherche">
                         <?php } ?>
