@@ -12,7 +12,7 @@
             <span class="font-weight-bold">Date Facture : </span><span><?=$tCommandes[0]['dateFact']?></span>
         </div>
         <form class="col-md-2" method="post" action="../controleurs/formCtrl.php">
-                <input type="hidden" name="codeArticle" value="<?=$tCommandes[0]['numCommande']?>">
+                <input type="hidden" name="numCommande" value="<?=$tCommandes[0]['numCommande']?>">
                 <input type="hidden" name="action" value="ajouterTicket">
                 <input type="submit" class="btn btn-primary custom-submit-btn" value="Ouvrir un ticket">
         </form>
@@ -41,6 +41,7 @@
                 <td><?=$dataCommande['dateExp']?></td>
                 <td><form class="row justify-content-center" method="post" action="../controleurs/formCtrl.php">
                         <input type="hidden" name="codeArticle" value="<?=$dataCommande['codeArticle']?>">
+                        <input type="hidden" name="numCommande" value="<?=$tCommandes[0]['numCommande']?>">
                         <input type="hidden" name="action" value="ajouterTicket">
                         <input type="submit" class="btn btn-primary custom-submit-btn" value="Ouvrir Ticket">
                     </form>

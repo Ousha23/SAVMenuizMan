@@ -78,35 +78,35 @@
             return $lastId;  
         }
 
-        /**
-         * Récupère le num de commande en utilisant le numero de facture
-         *
-         * @param integer $idFact
-         * @return array
-         */
-        public static function getNumCmdByFact(int $idFact) : array {
-            $bdd = BDDMgr::getBDD();
-            $sql = "SELECT `numCommande` FROM `Facture` WHERE numFact = ?;";
-            $resultat = $bdd->prepare($sql);
-            $resultat->execute(array($idFact));
-            $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
-            return $tResultat;
-        }
+        // /**
+        //  * Récupère le num de commande en utilisant le numero de facture
+        //  *
+        //  * @param integer $idFact
+        //  * @return array
+        //  */
+        // public static function getNumCmdByFact(int $idFact) : array {
+        //     $bdd = BDDMgr::getBDD();
+        //     $sql = "SELECT `numCommande` FROM `Facture` WHERE numFact = ?;";
+        //     $resultat = $bdd->prepare($sql);
+        //     $resultat->execute(array($idFact));
+        //     $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
+        //     return $tResultat;
+        // }
 
-        /**
-         * Recherche le num Commande renseigné au niveau de la BDD
-         *
-         * @param integer $idCmd
-         * @return array
-         */
-        public static function getCmd(int $idCmd):array{
-            $bdd = BDDMgr::getBDD();
-            $sql = "SELECT `numCommande` FROM `Commande` WHERE `numCommande` = ?";
-            $resultat = $bdd->prepare($sql);
-            $resultat->execute(array($idCmd));
-            $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
-            return $tResultat;
-        }
+        // /**
+        //  * Recherche le num Commande renseigné au niveau de la BDD
+        //  *
+        //  * @param integer $idCmd
+        //  * @return array
+        //  */
+        // public static function getCmd(int $idCmd):array{
+        //     $bdd = BDDMgr::getBDD();
+        //     $sql = "SELECT `numCommande` FROM `Commande` WHERE `numCommande` = ?";
+        //     $resultat = $bdd->prepare($sql);
+        //     $resultat->execute(array($idCmd));
+        //     $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
+        //     return $tResultat;
+        // }
 
         // public static function getNomCltByFact(int $idFact) : array {
         //     $bdd = BDDMgr::getBDD();

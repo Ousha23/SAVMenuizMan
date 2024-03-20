@@ -4,9 +4,9 @@
     error_reporting(E_ALL);
 
     require_once("../modele/CmdMgr.class.php");
-
-    $tCommandes = CmdMgr::detailCmd($numCmd);
-    $pageTitle = "Détail de la commande N° : ".$numCmd;
+    
+    $tCommandes = CmdMgr::getDetailCmd($numCmdGet);
+    $pageTitle = "Détail de la commande N° : ".$numCmdGet;
     require_once ("../vues/view_consultCmd.php");
 
 

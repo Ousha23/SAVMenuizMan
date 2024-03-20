@@ -30,13 +30,6 @@ ob_start(); ?>
                                             <option value="traite">Traité</option>
                                         </select>
                                     </div>
-                            <?php } else { ?> 
-                             <div class="row justify-content-center">
-                                <div class="col-md-6">
-                                    <fieldset class="row justify-content-center">
-                                        <label class="col-md-12" for="idDescription">Description</label><br>
-                                        <textarea class="col-md-10" id="idDescription" name="descTicket" required rows="4"></textarea>
-                                    </fieldset>
                             <?php } ?>
                                     <div class="form-group">
                                         <label for="idTypeTicket">Type du ticket</label>
@@ -53,36 +46,28 @@ ob_start(); ?>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="idNumFact">Numéro de la facture</label>
-                                        <input type="text" class="form-control custom-input" name="numFact" id="idNumFact" pattern="[0-9]*" value="">
+                                        <input type="text" class="form-control custom-input" name="numFact" id="idNumFact" pattern="[0-9]*" title="Ce champs doit contenir uniquement des nombres">
                                     </div>
                                     <div class="form-group">
                                         <label for="idNumCmd">Numéro de la commande</label>
                                         <input type="text" class="form-control custom-input" name="numCmd" id="idNumCmd" pattern="[0-9]*"  title="Ce champs doit contenir uniquement des nombres">
                                     </div>
-                            <?php if ($actionPost !== "ajouterTicket"){ ?>
                                     <div class="form-group">
                                         <label for="idNomClt">Nom client</label>
-                                        <input type="text" class="form-control custom-input" name="nomClt" id="idNomClt">
+                                        <input type="text" class="form-control custom-input" name="nomClt" id="idNomClt" >
                                     </div>
-                            <?php } ?>
                                 </div>
                             </div>
                             <div class="row justify-content-center text-center">
                                 <div class="form-group col-md-6">
                                     <?php if($actionPost == "accueil") { ?> 
                                     <input type="submit" id ="idBtnRechercher" class="btn btn-primary custom-submit-btn btnRechercher" name="action" value="Rechercher">
-                                    <?php } else { ?>
-                                    <input type="hidden" name="action" value="ajouterTicketMAJ">   
-                                    <input type="submit" id ="idBtnRechercher" class="btn btn-primary custom-submit-btn btnRechercher" value="Valider">
                                     <?php } ?>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <form class="row justify-content-center" action="../controleurs/formCtrl.php" method="POST">
-                         <?php// if($actionPost == "accueil") { ?> 
-                        <!-- <input type="hidden" name="action" value="ajouterTicket">
-                        <input type="submit" class="btn btn-primary custom-submit-btn" value="Ouvrir un nouveau ticket"> -->
                         <?php if($actionPost !== "accueil") { ?>
                         <input type="hidden" name="action" value="accueil">
                         <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour à la page de recherche">
