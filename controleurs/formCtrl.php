@@ -45,24 +45,33 @@
      * @param [type] $msg
      * @return void
      */
-    function retourForm($action,$titrePage,$msg,$tdata){
+    function retourForm($action,$msg,$tdata){
 
 //var_dump($_POST["action"]);
         $actionPost = $action;
-        $pageTitle = $titrePage;
         $msgErreur = $msg;
         $tCommandes = $tdata;
         require_once "../vues/view_form.php";
     }
 
-    function ajouterTicket($dTicket,$typeDossier,$idCmd,$idUser,$nomClient, $numFact = null, $codeArticle = null):bool {
-        $pageTitle = "Bienvenue dans l'espace de recherche";
-        
+    /**
+     * Execute la requete et retourne true si tout s'est bien passé ou false s'il une erreur est survenue
+     *
+     * @param [type] $dTicket
+     * @param [type] $typeDossier
+     * @param [type] $idCmd
+     * @param [type] $idUser
+     * @param [type] $nomClient
+     * @param [type] $numFact
+     * @param [type] $codeArticle
+     * @return boolean
+     */
+    function ajouterTicket($dTicket,$typeDossier,$idCmd,$idUser,$nomClient, $numFact = null, $codeArticle = null):bool {    
         try {
-            $nvTicket = TicketMgr::addTicket($dTicket, $typeDossier, (int)$idCmd, (int)$idUser, (int)$codeArticle);
+            $nvTicket = TicketMgr::addTicket($dTicket, $typeDossier, $idCmd, $idUser, $codeArticle);
             $msg = "Ajout effectué avec succès. Numéro du Ticket : " . $nvTicket;
             $actionPost = "accueil";
-            retourForm($actionPost, $pageTitle, $msg,"");
+            retourForm($actionPost, $msg,"");
             return true;
         } catch (Exception $e) {
             $msg = "Une erreur est survenue lors de l'ouverture du ticket: Merci de contacter un Administrateur.";
@@ -89,12 +98,14 @@
                     require_once ("cmdCtrl.php");
                     break;
                 }
+//______________________A revoir après regroupement du code
             case "detailsTicket":
                 if(isset($_GET['idTicketSAV'])){
                     $idTicket = $_GET['idTicketSAV'];
                     require_once ("");
                     break;
                 }
+//_______________________
         }
     } else {
     if(isset($_POST['action'])){
@@ -104,8 +115,7 @@
 //die(); 
             switch($actionPost){
                 case 'accueil':
-                    $pageTitle = "Bienvenue dans l'espace de recherche";
-                    retourForm($actionPost,$pageTitle,"","");
+                    retourForm($actionPost,"","");
                 case 'Rechercher':
                     $pageTitle = "Liste des Tickets";
                     if(estNbrRenseigne('numTicket')){
@@ -118,21 +128,21 @@
                     } 
                     if(estTxtRenseigne('etatTicket')){
                         $statutTicket = $_POST['etatTicket'];
-//var_dump($statutTicket);
                     } 
                     if(estTxtRenseigne('typeDossier')){
                         $idDossier = $_POST['typeDossier'];
                     } 
                     if(estNbrRenseigne('numFact')){
                         $idFact = (int)$_POST['numFact'];
-                        $pageTitle = "Liste des Factures";
+                        $pageTitle = "Liste des tickets de la Facture N° : $idFact";
                     } 
                     if(estNbrRenseigne('numCmd')){
                         $idCommande = (int)$_POST['numCmd'];
-                        $pageTitle = "Liste des commandes";
+                        $pageTitle = "Liste des tickets de la commande N° : $idCommande";
                     } 
                     if(estTxtRenseigne('nomClt')){
                         $nomClt = $_POST['nomClt'];
+                        $pageTitle = "Liste des tickets des clients dont le nom contient : \"$nomClt\"";
                     }
                     try{
                     $tTickets = TicketMgr::searchTicket($idTicket,$idCommande,$nomClt,$statutTicket,$idFact,$dateTicket,$idDossier);
@@ -141,7 +151,7 @@
                     } catch (Exception $e){
                         $msgErreur ="Erreur : Merci de contacter un Administrateur.";
                         error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
-                        retourForm($actionPost,$pageTitle, $msgErreur,"");
+                        retourForm($actionPost, $msgErreur,"");
                     }
                     require_once "../vues/view_listTicket.php";
                     break;
@@ -158,7 +168,6 @@
                             error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
                             break;
                         }
-                        $pageTitle = "Création d'un nouveau Ticket";
                         require_once("../vues/view_formAddTicket.php");
                         break;
                     } else if(isset($_POST['numCommande'])){
@@ -171,32 +180,29 @@
                             error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
                             break;
                         }
-                        $pageTitle = "Création d'un nouveau Ticket";
                         require_once("../vues/view_formAddTicket.php");
                         break;
                     } else {
                         $msg = "";
                         $actionPost = "accueil";
-                        $pageTitle = "Bienvenue dans l'espace de recherche";
-                        retourForm($actionPost,$pageTitle,$msg,"");
+                        retourForm($actionPost,$msg,"");
                         break;
                     }
 
-                case "ajouterTicketMAJ" :
-                    
+                case "ajouterTicketMAJ" :    
                     if (estTxtRenseigne('descTicket') && estTxtRenseigne('typeDossier')) {
-//echo "niveau 1";
                         $typeTicket = $_POST['typeDossier'];
                         $descTicket = $_POST['descTicket'];
-
                         if(estNbrRenseigne('numCmd') && estNbrRenseigne('codeArticle')){
-var_dump($_POST);
-echo "niveau 2";
+// var_dump($_POST);
                             $idCmd = $_POST['numCmd'];
-                            $codeArticle = $_POST['$codeArticle'];
-                            
-//TODO partie ticket Article
-                            if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'], $codeArticle) == false) break;
+                            $codeArticle = $_POST['codeArticle'];
+//-----------------------------------
+                            $tArticleCmd = CmdMgr::getArticleCmd($idCmd,$codeArticle);                 
+                            if (count($tArticleCmd) == 1){
+                                if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'], $codeArticle) == false) break;
+                            }
+//-----------------------------------
                         } else if(estNbrRenseigne('numCmd')) {
 
                             $idCmd = $_POST['numCmd'];
@@ -204,33 +210,31 @@ echo "niveau 2";
                         }
 //var_dump($idCmd);
 //die();
-                    } else {
-//var_dump($_POST);
-                            $typeTicket = $_POST['typeDossier'];
-                            $descTicket = $_POST['descTicket'];
+                    } else {   
+                        if(estTxtRenseigne('typeDossier')) $typeTicket = $_POST['typeDossier'];
+                        if (estTxtRenseigne('descTicket')) $descTicket = $_POST['descTicket'];
                         if (isset($_POST['numCmd']) && isset($_POST['codeArticle'])){
 //var_dump($_POST);
                             $tCommandes[0]['numCommande'] = $_POST['numCmd'];
                             $tCommandes[0]['codeArticle'] = $_POST['codeArticle'];
-// TODO ajouter libArticle
+                            $tCommandes[0]['libArticle'] = $_POST['libArticle'];
                         } else {
 //var_dump($_POST);
                             $tCommandes[0]['numCommande'] = $_POST['numCmd'];
                             $tCommandes[0]['nomClient'] = $_POST['nomClt'];
                             $tCommandes[0]['numFact']= $_POST['numFact'];
+                            
                         }
 //var_dump($tCommandes);
-                        $msg = "Merci de renseigner tous les champs (description et type de ticket).";
-                        $pageTitle = "Création d'un nouveau Ticket";
+                        $msg = "Merci de renseigner tous les champs (description et/ou type de ticket).";
                         $actionPost = "ajouterTicket";
                         require_once("../vues/view_formAddTicket.php");
                         break;
                     }
                 }                
-    } else {
-        $msg = "";
-        $pageTitle = "Bienvenue dans l'espace de recherche";
-        retourForm($actionPost,$pageTitle,$msg,"");
-    }
+        } else {
+            $msg = "";
+            retourForm($actionPost,$msg,"");
+        }
     
     }

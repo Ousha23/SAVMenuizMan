@@ -156,7 +156,7 @@
 
     
 //$test = searchTicket(null,null,null,null,null,"13/03/2024", null);
-//$test = TicketMgr::addTicket("test d'ajout d'un ticket","EP",6,3,1);
+//$test = TicketMgr::addTicket("test d'ajout d'un ticket","EP",6,3);
 //$test = TicketMgr::getNumCmd('1');
 //$test = TicketMgr::getNomCltByCmd(1);
 // $test = TicketMgr::getNomCltByFact(1);

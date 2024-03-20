@@ -8,7 +8,6 @@ ob_start(); ?>
                 <div class="col-md-12">
                     <div class="divForm">
                         <form  action="../controleurs/formCtrl.php" method="POST">
-                            <?php if ($actionPost == "accueil") {?>
                             <div class="row  ">
                                 <div class="form-group col-md-6">
                                     <label for="idNumTicket">Numéro de ticket</label>
@@ -30,7 +29,6 @@ ob_start(); ?>
                                             <option value="traite">Traité</option>
                                         </select>
                                     </div>
-                            <?php } ?>
                                     <div class="form-group">
                                         <label for="idTypeTicket">Type du ticket</label>
                                         <select class="form-control custom-input" name="typeDossier" id="idTypeTicket" required>
@@ -79,6 +77,7 @@ ob_start(); ?>
     </main>
 <?php
     $siteTitle = "Interface de recherche";
+    $pageTitle = "Bienvenue dans l'espace de recherche";
     $contenu = ob_get_contents(); 
     ob_end_clean();              
     require("gabarit.php");

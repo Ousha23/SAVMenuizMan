@@ -51,7 +51,6 @@
             $resultat->execute(array($idCmd,$codeArticle));
             $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
             return $tResultat;
-
         }
     }
 //$test = CmdMgr::getCmd(1);
