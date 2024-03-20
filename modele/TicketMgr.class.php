@@ -69,13 +69,25 @@
             return $tResultat;      
         }
 
-        public static function addTicket(string $descTicket, string $typeTicket, int $idCommande, int $idUser):int {
+        public static function addTicket(string $descTicket, string $typeTicket, int $idCommande, int $idUser, int $codeArticle = null):int {
             $bdd = BDDMgr::getBDD();
-            $sql = "INSERT INTO `Ticket`(`statutTicket`, `description`, `dateTicket`, `idUtilisateur`, `numCommande`, `idDossier`) VALUES (?,?,CURRENT_DATE,?,?,?)";
-            $resultat = $bdd->prepare($sql);
-            $resultat->execute(array('En attente',$descTicket,$idUser,$idCommande,$typeTicket));
-            $lastId = $bdd->lastInsertId();
-            return $lastId;  
+            try {
+                $bdd->beginTransaction();
+                $sql = "INSERT INTO `Ticket`(`statutTicket`, `description`, `dateTicket`, `idUtilisateur`, `numCommande`, `idDossier`) VALUES (?,?,CURRENT_DATE,?,?,?)";
+                $resultat = $bdd->prepare($sql);
+                $resultat->execute(array('En attente',$descTicket,$idUser,$idCommande,$typeTicket));
+                $lastId = $bdd->lastInsertId();
+                if($codeArticle !== null) {
+                    $sql = "INSERT INTO `Retourner`(`idTicketSAV`, `codeArticle`) VALUES (?,?)";
+                    $resultat = $bdd->prepare($sql);
+                    $resultat->execute(array($lastId,$codeArticle));
+                }
+                $bdd->commit();
+                return $lastId; 
+            } catch (PDOException $e){
+                $bdd->rollBack();
+                throw $e;
+            }  
         }
 
         // /**
@@ -144,9 +156,9 @@
 
     
 //$test = searchTicket(null,null,null,null,null,"13/03/2024", null);
-// $test = TicketMgr::addTicket("test d'ajout d'un ticket","EP",6,3);
+//$test = TicketMgr::addTicket("test d'ajout d'un ticket","EP",6,3,1);
 //$test = TicketMgr::getNumCmd('1');
 //$test = TicketMgr::getNomCltByCmd(1);
 // $test = TicketMgr::getNomCltByFact(1);
-// var_dump($test);
+//var_dump($test);
     

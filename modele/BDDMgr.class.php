@@ -10,12 +10,8 @@
                 //extract($tParametres['BDD']);
                 extract($tParametres['BD']);
                 $dsn = 'mysql:host='.$host.';port='.$port.';dbname='.$dbname.';charset=utf8';
-                try {
-                    $bdd =new PDO($dsn, $login, $mdp , array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-                    return $bdd;
-                } catch (PDOException $e){
-                    return $e->getMessage();
-                }  
+                $bdd =new PDO($dsn, $login, $mdp , array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+                return $bdd;
             }
         }
     }

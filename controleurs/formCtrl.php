@@ -55,10 +55,11 @@
         require_once "../vues/view_form.php";
     }
 
-    function ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser, $codeArticle = null):bool {
+    function ajouterTicket($dTicket,$typeDossier,$idCmd,$idUser,$nomClient, $numFact = null, $codeArticle = null):bool {
         $pageTitle = "Bienvenue dans l'espace de recherche";
+        
         try {
-            $nvTicket = TicketMgr::addTicket($descTicket, $typeTicket, (int)$idCmd, (int)$idUser);
+            $nvTicket = TicketMgr::addTicket($dTicket, $typeDossier, (int)$idCmd, (int)$idUser, (int)$codeArticle);
             $msg = "Ajout effectué avec succès. Numéro du Ticket : " . $nvTicket;
             $actionPost = "accueil";
             retourForm($actionPost, $pageTitle, $msg,"");
@@ -67,7 +68,12 @@
             $msg = "Une erreur est survenue lors de l'ouverture du ticket: Merci de contacter un Administrateur.";
             error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
             $actionPost = "ajouterTicket";
-// TODO verifer le cas d'un prob BDD
+            $typeTicket = $typeDossier;
+            $descTicket = $dTicket;
+            $tCommandes[0]['numCommande'] = $idCmd;
+            $tCommandes[0]['codeArticle'] = $codeArticle;
+            $tCommandes[0]['nomClient'] = $nomClient;
+            $tCommandes[0]['numFact']= $numFact;
             require_once("../vues/view_formAddTicket.php");
             return false;
         }
@@ -182,21 +188,24 @@
 //echo "niveau 1";
                         $typeTicket = $_POST['typeDossier'];
                         $descTicket = $_POST['descTicket'];
+
                         if(estNbrRenseigne('numCmd') && estNbrRenseigne('codeArticle')){
-                            $idCmd = $_POST['numCmd'];
-                            $codeArticle = $_POST['$codeArticle'];
-//TODO partie ticket Article
-                            if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$codeArticle) ==false) break;
-                        } else if(estNbrRenseigne('numCmd')) {
 var_dump($_POST);
 echo "niveau 2";
                             $idCmd = $_POST['numCmd'];
-                            if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser)== false) break;
+                            $codeArticle = $_POST['$codeArticle'];
+                            
+//TODO partie ticket Article
+                            if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'], $codeArticle) == false) break;
+                        } else if(estNbrRenseigne('numCmd')) {
+
+                            $idCmd = $_POST['numCmd'];
+                            if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'])== false) break;
                         }
 //var_dump($idCmd);
 //die();
                     } else {
-var_dump($_POST);
+//var_dump($_POST);
                             $typeTicket = $_POST['typeDossier'];
                             $descTicket = $_POST['descTicket'];
                         if (isset($_POST['numCmd']) && isset($_POST['codeArticle'])){
