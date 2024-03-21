@@ -31,8 +31,8 @@ $connexion = $_SESSION['nomUtilisateur'] ;
             </form>
             
             <!-- Bouton de retour -->
-            <div class="text-center ">
-                <a href="index.php?action=dashboard" class="btn  custom-submit-btn">Retour à la page d'accueil</a>
+            <div class="row justify-content-center">
+                <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
             </div>
         </div>
     </div>

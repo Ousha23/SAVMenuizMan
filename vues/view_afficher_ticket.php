@@ -49,8 +49,8 @@
         <?php endif; ?>
     </div>
 
-    <div class="text-center ">
-                <a href="index.php?action=dashboard" class="btn btn-primary retour">Retour à la page d'accueil</a>
+    <div class="text-center">
+                <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn">Retour à la page d'accueil</a>
             </div>
 
 </main>

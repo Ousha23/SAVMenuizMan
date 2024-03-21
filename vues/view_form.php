@@ -66,12 +66,13 @@
                             </div>
                         </form>
                     </div>
-                    <form class="row justify-content-center" action="../controleurs/formCtrl.php" method="POST">
+                    
                         <?php if($actionPost !== "accueil") { ?>
-                        <input type="hidden" name="action" value="accueil">
-                        <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour à la page de recherche">
+                        <div class="row justify-content-center">
+                            <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
+                        </div>
                         <?php } ?>
-                    </form>
+
                 </div>
             </div>
         </div>

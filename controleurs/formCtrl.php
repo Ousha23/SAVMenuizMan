@@ -20,20 +20,20 @@
     $idDossier = null;
     $isTechSAV = false; // Par défaut, l'utilisateur n'est pas un technicien SAV
 
-// Verifiez si l'utilisateur est un technicien SAV
-if (isset($_SESSION['idPrifil']) && $_SESSION['idPrifil'] === '2') {
-    $isTechSAV = true;
-}
+    // Verifiez si l'utilisateur est un technicien SAV
+    if (isset($_SESSION['idPrifil']) && $_SESSION['idPrifil'] === '2') {
+        $isTechSAV = true;
+    }
 
     $actionPost = "accueil";
     $idUser = 2;
     
 
-    if (!isset($_SESSION['emailUtilisateur'])) {
-        // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
-        header('Location: login.php');
-        exit; // Assurez-vous de quitter le script après la redirection
-    }
+    // if (!isset($_SESSION['emailUtilisateur'])) {
+    //     // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+    //     header('Location: login.php');
+    //     exit; // Assurez-vous de quitter le script après la redirection
+    // }
 
     /**
      * Verifie si le champs nbr n'est pas vide
@@ -101,44 +101,52 @@ if (isset($_SESSION['idPrifil']) && $_SESSION['idPrifil'] === '2') {
             $tCommandes[0]['codeArticle'] = $codeArticle;
             $tCommandes[0]['nomClient'] = $nomClient;
             $tCommandes[0]['numFact']= $numFact;
-            require_once("../vues/view_formAddTicket.php");
+            require_once("vues/view_formAddTicket.php");
             return false;
         }
     }
 
 
-    if(isset($_GET['action'])){
-        $actionGet = $_GET['action'];
-        switch ($actionGet){
-            case "detailsCmd":
-                if(estNbrRenseigne('numCmd')){
-                    $numCmdGet = $_GET['numCmd'];
-                    require_once ("cmdCtrl.php");
-                    break;
-                }
-//______________________A revoir après regroupement du code
-            case "detailsTicket":
-                if(estNbrRenseigne('idTicketSAV')){
-                    $idTicket = $_GET['idTicketSAV'];
-                    require_once ("../vues/view_enConstr.php");
-                    break;
-                }
-//_______________________
-            case "detailsClient":
-                if(isset($_GET['nomClient'])){
-                    $idTicket = $_GET['nomClient'];
-                    require_once ("../vues/view_enConstr.php");
-                    break;
-                }
-            case "detailsFact":
-                if(estNbrRenseigne('numFact')){
-                    $idTicket = $_GET['numFact'];
-                    require_once ("../vues/view_enConstr.php");
-                    break;
-                }
-        }
-    } else {
-    if(isset($_POST['action'])){
+//     if(isset($_GET['action'])){
+//         $actionGet = $_GET['action'];
+//         switch ($actionGet){
+//             case "detailsCmd":
+//                 if(estNbrRenseigne('numCmd')){
+//                     $numCmdGet = $_GET['numCmd'];
+//                     require_once ("/../controleurs/cmdCtrl.php");
+//                     break;
+//                 }
+// //______________________A revoir après regroupement du code
+//             case "detailsTicket":
+//                 if(estNbrRenseigne('idTicketSAV')){
+//                     $idTicket = $_GET['idTicketSAV'];
+//                     require_once ("../vues/view_enConstr.php");
+//                     break;
+//                 }
+// //_______________________
+//             case "detailsClient":
+//                 if(isset($_GET['nomClient'])){
+//                     $idTicket = $_GET['nomClient'];
+//                     require_once ("../vues/view_enConstr.php");
+//                     break;
+//                 }
+//             case "detailsFact":
+//                 if(estNbrRenseigne('numFact')){
+//                     $idTicket = $_GET['numFact'];
+//                     require_once ("../vues/view_enConstr.php");
+//                     break;
+//                 }
+//         }
+//     } else {
+    if ($action == "dashboard") {
+        if(isset($_GET['idTicket'])) {
+            $idTicketSav = $_GET['idTicket']; 
+            $ticketDetails = getTicketDetails($idTicketSav);
+        } else if(isset($_GET['numCommande'])) { 
+            $numCmdGet = $_GET['numCommande'];
+            $idProfil = $_SESSION['idPrifil'];
+            require_once ("controleurs/cmdCtrl.php");
+    } else if(isset($_POST['action'])){
         $actionPost = $_POST['action'];
 //var_dump($actionPost);
 //var_dump($_POST['numTicket']);
@@ -199,7 +207,7 @@ if (isset($_SESSION['idPrifil']) && $_SESSION['idPrifil'] === '2') {
                             error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
                             break;
                         }
-                        require_once("../vues/view_formAddTicket.php");
+                        require_once("vues/view_formAddTicket.php");
                         break;
                     } else if(isset($_POST['numCommande'])){
                         $numCmd = $_POST['numCommande'];
@@ -211,7 +219,7 @@ if (isset($_SESSION['idPrifil']) && $_SESSION['idPrifil'] === '2') {
                             error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
                             break;
                         }
-                        require_once("../vues/view_formAddTicket.php");
+                        require_once("vues/view_formAddTicket.php");
                         break;
                     } else {
                         $msg = "";
@@ -225,21 +233,23 @@ if (isset($_SESSION['idPrifil']) && $_SESSION['idPrifil'] === '2') {
                         $typeTicket = $_POST['typeDossier'];
                         $descTicket = $_POST['descTicket'];
                         if(estNbrRenseigne('numCmd') && estNbrRenseigne('codeArticle')){
-// var_dump($_POST);
+//var_dump($_POST);
                             $idCmd = $_POST['numCmd'];
                             $codeArticle = $_POST['codeArticle'];
-                            $tArticleCmd = CmdMgr::getArticleCmd($idCmd,$codeArticle);                 
-                            if (count($tArticleCmd) == 1 && ($codeArticle === $tArticleCmd[0]['codeArticle'])){
-//var_dump($tArticleCmd[0]['codeArticle']);
+                            $tArticleCmd = CmdMgr::getArticleCmd($idCmd,$codeArticle);  
+var_dump($codeArticle);
+var_dump($tArticleCmd[0]['codeArticle']); 
+var_dump(count($tArticleCmd));              
+                            if (count($tArticleCmd) == 1 && ((int)$codeArticle === $tArticleCmd[0]['codeArticle'])){
+
                                 if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'], $codeArticle) == false) break;
                             } else {
                                 $msg = "L'article ne correspond pas à l'article selectionner";
                                 $actionPost = "ajouterTicket";
-                                require_once("../vues/view_formAddTicket.php");
+                                require_once("vues/view_formAddTicket.php");
                                 break;
                             }
                         } else if(estNbrRenseigne('numCmd')) {
-
                             $idCmd = $_POST['numCmd'];
                             if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'])== false) break;
                         }
@@ -265,18 +275,14 @@ if (isset($_SESSION['idPrifil']) && $_SESSION['idPrifil'] === '2') {
 //var_dump($tCommandes);
                         $msg = "Merci de renseigner tous les champs (description et/ou type de ticket).";
                         $actionPost = "ajouterTicket";
-                        require_once("../vues/view_formAddTicket.php");
+                        require_once("vues/view_formAddTicket.php");
                         break;
                     }
                 }                
-        } else if ($action == "dashboard") {
-            if(isset($_GET['idTicket'])) {
-                $idTicketSav = $_GET['idTicket']; 
-                $ticketDetails = getTicketDetails($idTicketSav);
-            } else {
-                retourForm($actionPost,"","");
-            }
+    } else {
+            retourForm($actionPost,"","");
+    }
         } else {
             retourForm($actionPost,"","");
         }
-    }
+    // }

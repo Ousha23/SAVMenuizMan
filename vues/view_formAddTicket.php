@@ -8,7 +8,7 @@ ob_start(); ?>
                 <div class="col-md-12">
                     <div class="divForm">
                         <?php if (($actionPost == "ajouterTicket") || ($actionPost == "ajouterTicketMAJ")) {?>
-                        <form  action="../controleurs/formCtrl.php" method="POST">
+                        <form  action="index.php?action=dashboard" method="POST">
                             <div class="row justify-content-center">
                                 <fieldset class="form-group col-md-6">
                                     <label class="col-md-12" for="idDescription">Description</label><br>
@@ -74,12 +74,11 @@ ob_start(); ?>
                     </div>
                     <div class="row ">
                         <div class="col-md-6 text-right ">
-                        <button  id="idBtnAnnuler" class="btn btn-primary custom-submit-btn" ><a href="../controleurs/formCtrl.php?action=detailsCmd&numCmd=<?=$tCommandes[0]['numCommande']?>"></a>Retour à la page précédente</button>
+                        <button  id="idBtnAnnuler" class="btn btn-primary custom-submit-btn" ><a href="index.php?action=dashboard&numCommande=<?=$tCommandes[0]['numCommande']?>"></a>Retour à la page précédente</button>
                         </div>
-                        <form class="col-md-6 text-left" action="../controleurs/formCtrl.php" method="POST">
-                            <input type="hidden" name="action" value="accueil">
-                            <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour à la page de recherche">
-                        </form>
+                        <div class="col-md-6 text-left">
+                            <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
+                        </div>
                     </div>
                     
                 </div>
@@ -87,6 +86,7 @@ ob_start(); ?>
         </div>
     </main>
 <?php
+    $connexion = $_SESSION['nomUtilisateur'];
     $siteTitle = "Interface de recherche";
     $pageTitle = "Création d'un nouveau Ticket";
     $contenu = ob_get_contents(); 

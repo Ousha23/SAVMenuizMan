@@ -8,12 +8,10 @@ main {
   font-family: Calibri, sans-serif;
   margin: auto;
   padding: 2%;
-  color: #395395;
-  min-height: calc(100vh - 50px); /* 50px est la hauteur de votre footer */
-  overflow-y: auto; /* Ajoute une barre de défilement si le contenu dépasse la hauteur de la fenêtre */
-  position: relative; /* Définit le positionnement relatif pour les enfants positionnés */
+  position: sticky;
+ color: #395395;
+ margin-bottom: 30px;
 }
-
 
 main::after {
   margin-top: 10%;
@@ -22,7 +20,7 @@ main::after {
   background-image: url('../images/MenuizMan.png');
   background-size: cover;
   background-position:fixed;
-  position:relative;
+  position:fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -37,7 +35,8 @@ main::after {
   border-bottom: 1px solid #395395;
   color: #395395;
   max-height: 90px;
-  
+  position: sticky;
+  top :0;
 }
 
 .custom-title{
