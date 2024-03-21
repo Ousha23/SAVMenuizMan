@@ -14,7 +14,7 @@
     if(count($tCommandes) < 1){
         $msg = "Le N° de Commande ne figure pas dans la base de données";
     }
-    $pageTitle = "Détail de la commande N° : ".$numCmdGet;
+    
     require_once ("vues/view_consultCmd.php");
 
 

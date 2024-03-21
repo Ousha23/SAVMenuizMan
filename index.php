@@ -32,7 +32,6 @@ echo
         break;
     
     case 'dashboard':
-echo "jesuilà";
         if (!isset($_SESSION['emailUtilisateur']) || empty($_SESSION['emailUtilisateur'])) {
             header('location: index.php?action=login');
             exit;

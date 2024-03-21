@@ -32,9 +32,9 @@
         <?php endforeach;?>
         </tbody>
     </table>
-    <form class="row justify-content-center" action="index.php?action=dashboard">
-        <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour au formulaire de recherche">
-    </form>
+    <div class="row justify-content-center">
+        <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
+    </div>
 </main>
 <?php
 $siteTitle = "Liste de commandes et tickets";
