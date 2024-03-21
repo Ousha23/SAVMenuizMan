@@ -69,6 +69,16 @@
             return $tResultat;      
         }
 
+        /**
+         * Crée un ticket dans la BDD en prenant en compte le cas ticket lié à un article lié à une commande ou à uune cmd
+         *
+         * @param string $descTicket
+         * @param string $typeTicket
+         * @param integer $idCommande
+         * @param integer $idUser
+         * @param integer|null $codeArticle
+         * @return integer
+         */
         public static function addTicket(string $descTicket, string $typeTicket, int $idCommande, int $idUser, int $codeArticle = null):int {
             $bdd = BDDMgr::getBDD();
             try {
@@ -89,7 +99,7 @@
                 throw $e;
             }  
         }
-
+//Fonctions utilisées précédemment dans le formulaire de création ticket avec saisi de données(cmd, fact ..) par l'agent
         // /**
         //  * Récupère le num de commande en utilisant le numero de facture
         //  *

@@ -31,7 +31,7 @@
             return $tResultat;
         }
         /**
-         * Recupere le détail d'une commande 
+         * Recupere le détail d'une commande afin de remplir le form (view_formAddTicket) pour le cas d'une ouverture de ticket pour commande
          *
          * @param integer $idCmd
          * @return array
@@ -50,7 +50,7 @@
         }
 
         /**
-         * recupere le detail d'un article donné lié à une commande donnée
+         * recupere le detail d'un article donné lié à une commande donnée afin de remplir le form (view_formAddTicket) pour le cas d'une ouverture de ticket pour un article spécifique dans la commande
          *
          * @param integer $idCmd
          * @param integer $codeArticle
