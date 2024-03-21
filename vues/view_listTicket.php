@@ -20,7 +20,7 @@
         
             ?>
             <tr>
-                <td><a href="../controleurs/formCtrl.php?action=detailsCmd&numCmd=<?=$dataTicket['numCommande']?>"><?=$dataTicket['numCommande']?></a></td>
+                <td><a href="index.php?action=dashboard&numCommande=<?= $dataTicket['numCommande']?>"><?=$dataTicket['numCommande']?></a></td>
                 <td><a href="../controleurs/formCtrl.php?action=detailsClient&nomClient=<?=$dataTicket['nomClient']?>"><?=$dataTicket['nomClient']?></a></td>
                 <td><a href="index.php?action=dashboard&idTicket=<?= $dataTicket['idTicketSAV']?>"><?=$dataTicket['idTicketSAV']?></a></td>
                 <td><?=$dataTicket['statutTicket']?></td>

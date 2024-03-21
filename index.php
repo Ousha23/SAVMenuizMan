@@ -26,23 +26,25 @@ $email_err = $password_err = '';
 
 switch ($action) {
     case 'login':
+echo
 
         require 'controleurs/loginCtrl.php'; 
         break;
     
     case 'dashboard':
+echo "jesuilà";
         if (!isset($_SESSION['emailUtilisateur']) || empty($_SESSION['emailUtilisateur'])) {
             header('location: index.php?action=login');
             exit;
         } 
-
+        $mailProfil = $_SESSION['emailUtilisateur'];
         $idProfil = $_SESSION['idPrifil'];
         switch ($idProfil) {
             case 1:
                 include 'vues/view-admin.php';
                 break;
             case 2:
-                if(isset($_GET['idTicket'])){
+                if(isset($_GET['idTicket']) || (isset($_GET['numCommande']))){
                     require 'controleurs/formCtrl.php';
                     break;
                 } else {
@@ -50,15 +52,19 @@ switch ($action) {
                     require 'controleurs/formCtrl.php';
                     break;
                 }
-                    
-
             case 3:
-                $idTicketSav = $_GET['idTicket'];
-                require 'controleurs/formCtrl.php'; 
-                break;
-            default:
-                header('location: index.php?action=login');
-                exit;
+                if(isset($_GET['idTicket']) || (isset($_GET['numCommande']))){
+                    require 'controleurs/formCtrl.php';
+                    break;
+                } else {
+                    $actionPost = "accueil";
+                    require 'controleurs/formCtrl.php';
+                    break;
+                }
+
+            // default:
+            //     header('location: index.php?action=login');
+            //     exit;
         }
         break;
  

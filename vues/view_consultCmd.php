@@ -1,4 +1,6 @@
-<?php ob_start(); ?>
+<?php ob_start(); 
+
+?>
 <main>
     <h3 class="text-center"><?php if($msg) echo $msg ?></h3>
     <div class="row justify-content-center divForm">
@@ -51,12 +53,13 @@
         <?php endforeach;?>
         </tbody>
     </table>
-    <form class="row justify-content-center" action="../controleurs/formCtrl.php">
-            <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour au formulaire de recherche">
+    <form class="row justify-content-center" action="index.php?action=dashboard">
+        <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour au formulaire de recherche">
     </form>
 </main>
 <?php
+    $connexion = $_SESSION['nomUtilisateur'];
     $siteTitle = "Détails Commande";
     $contenu = ob_get_contents(); 
     ob_end_clean();              
-    require_once "../vues/gabarit.php";
+    require_once "vues/gabarit.php";
