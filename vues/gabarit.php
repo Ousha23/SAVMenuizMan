@@ -1,4 +1,5 @@
-<?php ob_start();  ?>
+<?php ob_start();  
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,8 +8,8 @@
 
     <title><?= $siteTitle ?></title> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
-    <link rel="stylesheet" href="vues/css/savMenuizMan.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
+    <link rel="stylesheet" href="../vues/css/savMenuizMan.css">
     <link rel="stylesheet" href="../vues/css/form.css">
     <link rel="stylesheet" href="../vues/css/listeTicket.css">
 
@@ -48,7 +49,8 @@
             <div class="dropdown-menu" id = "menuButton" aria-labelledby="userDropdown">
               <a href="index.php?action=profile" class="dropdown-item" href="#">Profil</a> 
 
-              <a href="index.php?action=logout" class="dropdown-item" href="#">Logout</a>
+              <a href="index.php?action=logout" class="dropdown-item">Logout</a>
+
             </div>
           </div>
         </div>

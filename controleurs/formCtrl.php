@@ -1,10 +1,14 @@
 
 <?php
+
+
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    require_once("../modele/TicketMgr.class.php");
+    require_once __DIR__ . '/../modele/TicketMgr.class.php';
+    require_once __DIR__ . '/../modele/afficheTicketMgr.php';
+
     $idTicket = null;
     $idCommande = null;
     $nomClt = null;
@@ -12,8 +16,21 @@
     $idFact = null;
     $dateTicket = null; 
     $idDossier = null;
+    $isTechSAV = false; // Par défaut, l'utilisateur n'est pas un technicien SAV
+
+// Verifiez si l'utilisateur est un technicien SAV
+if (isset($_SESSION['idPrifil']) && $_SESSION['idPrifil'] === '2') {
+    $isTechSAV = true;
+}
 
     $actionPost = "accueil";
+    
+
+    if (!isset($_SESSION['emailUtilisateur'])) {
+        // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+        header('Location: login.php');
+        exit; // Assurez-vous de quitter le script après la redirection
+    }
 
     /**
      * return 
@@ -31,7 +48,8 @@
     function retourForm($action,$msg){
         $pageTitle = "Bienvenue dans l'espace de recherche";
         $msgErreur = $msg;
-        require_once "../vues/view_form.php";
+        require_once __DIR__ . "/../vues/view_form.php";
+        
     }
 
     if(isset($_POST['action'])){
@@ -40,6 +58,7 @@
 //var_dump($_POST['numTicket']);
 //die(); 
             switch($actionPost){
+                case 'acceuil':
                 case 'Rechercher':
                     $pageTitle = "Liste des commandes";
                     if(estNbrRenseigne('numTicket')){
@@ -78,14 +97,30 @@ var_dump($idTicket);
                         $msgErreur ="Erreur : ".$e->getMessage();
                         retourForm($actionPost, $msgErreur);
                     }
-                    require_once "../vues/view_listTicket.php";
+                   
+                    require_once __DIR__ . "/../vues/view_listTicket.php";
                     break;
 
                 case "ajouterTicket" :
                     $pageTitle = "Création d'un nouveau Ticket";
                     retourForm($actionPost,"");
                     break;
-            }   
+                
+                    // case "afficherTicket" :
+                    //     $idTicketSav = $_GET['id']; 
+                    //     $ticketDetails = getTicketDetails($idTicketSav);
+                   
+                    // break;
+                    
+                    
+                }   
+    } else if ($action == "dashboard") {
+        if(isset($_GET['idTicket'])) {
+            $idTicketSav = $_GET['idTicket']; 
+            $ticketDetails = getTicketDetails($idTicketSav);
+        } else {
+            retourForm($actionPost,"");
+        }
     } else {
         retourForm($actionPost,"");
     }

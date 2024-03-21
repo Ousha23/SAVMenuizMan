@@ -1,5 +1,5 @@
 <?php
-require_once('modele/BDDMgr.class.php');
+require_once __DIR__ . '/../modele/BDDMgr.class.php';
 
 function login($email, $password) {
     $pdo = BDDMgr::getBDD();

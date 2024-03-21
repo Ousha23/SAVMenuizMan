@@ -1,11 +1,14 @@
 <?php ob_start(); ?>
+<?php $pageTitle ="hello Tecnicien-Sav" ; ?>
+
+<?php $connexion = $_SESSION['nomUtilisateur'] ;?>
     <main class=justify-content-center>
         <div class="container-fluid">
             <h3 class="text-center"><?=$msgErreur?></h3>
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="divForm">
-                        <form  action="../controleurs/formCtrl.php" method="POST">
+                        <form  action="index.php?action=dashboard" method="POST">
                             <div class="row  ">
                                 <div class="form-group col-md-6">
                                     <label for="idNumTicket">Numéro de ticket</label>
@@ -61,7 +64,7 @@
                             </div>
                         </form>
                     </div>
-                    <form class="row justify-content-center" action="../controleurs/formCtrl.php" method="POST">
+                    <form class="row justify-content-center" action="index.php?action=dashboard" method="POST">
                         <input type="hidden" name="action" value="ajouterTicket">
                         <input type="submit" class="btn btn-primary custom-submit-btn" value="Ouvrir un nouveau ticket">
                     </form>
