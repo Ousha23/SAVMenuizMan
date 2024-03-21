@@ -17,3 +17,13 @@
   textarea #idDescription{
     width: 50px;
   }
+  /* Style pour le footer */
+.custom-footer {
+  background-color: #ffffff;
+  border-top: 1px solid #395395;
+  color: #395395;
+  position: fixed; /* Positionnement absolu par rapport à son parent relatif */
+  bottom: 0; /* Colle le footer en bas de son parent */
+  width: 100%;
+ 
+}

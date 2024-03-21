@@ -1,23 +1,29 @@
+
 <?php ob_start(); ?>
 
 <main class="d-flex align-items-center justify-content-center">
   <div class="container-fluid mt-5">
-    <h2 class="text-center">Merci de vous connecter</h2>
+  <?php $pageTitle ="Merci de vous connecter"; ?>
+  <?php $siteTitle ="Login"; ?>
+  <?php $connexion="connexion";?>
+    
     <div class="row justify-content-center">
-      <div class="col-md-4">
+      <div class="col-md-3 col-8">
         <div class="custom-container">
-          <form>
+          <form action="index.php?action=login" method="POST" >
             <div class="form-group">
               <label for="username">Nom d'utilisateur:</label>
-              <input type="text" class="form-control custom-input" id="username" required>
+              <input type="email" name="emailUtilisateur" class="form-control form-control-lg <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" placeholder="Entrez votre email" value="<?php echo isset($emailUtilisateur) ? $emailUtilisateur : '' ; ?>" >
+              <span class="invalid-feedback"><?php echo $email_err; ?></span>
             </div>
             <div class="form-group">
               <label for="password">Mot de passe:</label>
-              <input type="password" class="form-control custom-input" id="password" required>
+              <input type="password" name="mdpUtilisateur" class="form-control form-control-lg <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" placeholder="Entrez votre mot de passe" value="<?php echo isset($mdpUtilisateur) ? $mdpUtilisateur : '';?>">
+              <span class="invalid-feedback"><?php echo $password_err; ?></span>
             </div>
 
             <div class="form-group ">
-              <a href="#" class="text-dark">Nom d'utilisateur ou mot de passe oublié?</a>
+              <a href="#" class="text-dark">Mot de passe oublié?</a>
             </div>
 
             <div class="form-group text-center">
@@ -29,6 +35,7 @@
     </div>
   </div>
 </main>
+
 
 <?php
 $contenu = ob_get_contents(); 

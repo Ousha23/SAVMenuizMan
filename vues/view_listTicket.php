@@ -1,6 +1,8 @@
 <?php ob_start(); ?>
+
+<?php $connexion = $_SESSION['nomUtilisateur']; ?>
 <main>
-    <table id ="listeTickets" class="table table-striped table-bordered dataTable tableListeTicket" style="width:100%">
+    <table id="listeTickets" class="table table-striped table-bordered dataTable tableListeTicket" style="width:100%">
         <thead>
             <tr>
                 <th><i class="fa-solid fa-sort"></i>  N° Commande </th>
@@ -20,7 +22,7 @@
             <tr>
                 <td><a href="../controleurs/formCtrl.php?action=detailsCmd&numCmd=<?=$dataTicket['numCommande']?>"><?=$dataTicket['numCommande']?></a></td>
                 <td><a href="../controleurs/formCtrl.php?action=detailsClient&nomClient=<?=$dataTicket['nomClient']?>"><?=$dataTicket['nomClient']?></a></td>
-                <td><a href="../controleurs/formCtrl.php?action=detailsTicket&idTicket=<?=$dataTicket['idTicketSAV']?>"><?=$dataTicket['idTicketSAV']?></a></td>
+                <td><a href="index.php?action=dashboard&idTicket=<?= $dataTicket['idTicketSAV']?>"><?=$dataTicket['idTicketSAV']?></a></td>
                 <td><?=$dataTicket['statutTicket']?></td>
                 <td><?=$dataTicket['idDossier']?></td>
                 <td><?=$dataTicket['dateTicket']?></td>
@@ -30,13 +32,13 @@
         <?php endforeach;?>
         </tbody>
     </table>
-    <form class="row justify-content-center" action="../controleurs/formCtrl.php">
-            <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour au formulaire de recherche">
+    <form class="row justify-content-center" action="index.php?action=dashboard">
+        <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour au formulaire de recherche">
     </form>
 </main>
 <?php
-    $siteTitle = "Liste de commandes et tickets";
-    $contenu = ob_get_contents(); 
-    ob_end_clean();              
-    require_once "../vues/gabarit.php";
+$siteTitle = "Liste de commandes et tickets";
+$contenu = ob_get_contents();
+ob_end_clean();
+require("gabarit.php");
 ?>
