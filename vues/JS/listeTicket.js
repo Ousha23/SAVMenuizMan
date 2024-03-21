@@ -55,6 +55,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+var btnAnnuler = document.getElementById("idBtnAnnuler");
+
+btnAnnuler.addEventListener("click", function () {window.history.back();});
 // var btnRechercher = document.getElementById("idBtnRechercher");
 
 // // Vérifie si le bouton de recherche est correctement récupéré

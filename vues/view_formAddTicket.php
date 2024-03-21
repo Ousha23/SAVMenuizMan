@@ -31,11 +31,11 @@ ob_start(); ?>
                                         <label for="idTypeTicket">Type du ticket</label>
                                         <select class="form-control custom-input" name="typeDossier" id="idTypeTicket" required>
                                             <option disabled <?php if(!isset($typeTicket)) echo "selected"?>>Choisissez une option</option>
-                                            <option <?php if(isset($typeTicket) && ($typeTicket== "EC")) echo "selected";?> value="EC">Erreur client lors de la commande</option>
-                                            <option <?php if(isset($typeTicket) && ($typeTicket== "EP")) echo "selected";?> value="EP">Erreur de préparation</option>
-                                            <option <?php if(isset($typeTicket) && ($typeTicket== "NP")) echo "selected";?> value="NP">Non présent lors de la livraison</option>
-                                            <option <?php if(isset($typeTicket) && ($typeTicket== "NPAI")) echo "selected";?> value="NPAI">N'habite pas à l'adresse indiquée</option>
-                                            <option <?php if(isset($typeTicket) && ($typeTicket== "SAV")) echo "selected";?> value="SAV">Services SAV</option>
+                                            <option <?php if(isset($typeTicket) && ($typeTicket== "EC")) echo "selected";?> value="EC">Erreur client lors de la commande (EC)</option>
+                                            <option <?php if(isset($typeTicket) && ($typeTicket== "EP")) echo "selected";?> value="EP">Erreur de préparation (EP)</option>
+                                            <option <?php if(isset($typeTicket) && ($typeTicket== "NP")) echo "selected";?> value="NP">Non présent lors de la livraison (NP)</option>
+                                            <option <?php if(isset($typeTicket) && ($typeTicket== "NPAI")) echo "selected";?> value="NPAI">N'habite pas à l'adresse indiquée (NPAI)</option>
+                                            <option <?php if(isset($typeTicket) && ($typeTicket== "SAV")) echo "selected";?> value="SAV">Services SAV (SAV)</option>
                                         </select>
                                     </div>
                                     <?php if(!isset($tCommandes[0]['codeArticle']) || empty($tCommandes[0]['codeArticle'])) { ?>
@@ -66,15 +66,22 @@ ob_start(); ?>
                                 <div class="form-group col-md-6">
                                     <input type="hidden" name="action" value="ajouterTicketMAJ">   
                                     <input type="submit" id ="idBtnRechercher" class="btn btn-primary custom-submit-btn btnRechercher" value="Valider">
+                                    
                                 </div>
                             </div>
                         </form>
                         <?php }?>
                     </div>
-                    <form class="row justify-content-center" action="../controleurs/formCtrl.php" method="POST">
-                        <input type="hidden" name="action" value="accueil">
-                        <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour à la page de recherche">
-                    </form>
+                    <div class="row ">
+                        <div class="col-md-6 text-right ">
+                        <button  id="idBtnAnnuler" class="btn btn-primary custom-submit-btn" ><a href="../controleurs/formCtrl.php?action=detailsCmd&numCmd=<?=$tCommandes[0]['numCommande']?>"></a>Retour à la page précédente</button>
+                        </div>
+                        <form class="col-md-6 text-left" action="../controleurs/formCtrl.php" method="POST">
+                            <input type="hidden" name="action" value="accueil">
+                            <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour à la page de recherche">
+                        </form>
+                    </div>
+                    
                 </div>
             </div>
         </div>

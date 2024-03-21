@@ -33,11 +33,11 @@ ob_start(); ?>
                                         <label for="idTypeTicket">Type du ticket</label>
                                         <select class="form-control custom-input" name="typeDossier" id="idTypeTicket" required>
                                             <option disabled selected>Choisissez une option</option>
-                                            <option value="EC">Erreur client lors de la commande</option>
-                                            <option value="EP">Erreur de préparation</option>
-                                            <option value="NP">Non présent lors de la livraison</option>
-                                            <option value="NPAI">N'habite pas à l'adresse indiquée</option>
-                                            <option value="SAV">Services SAV</option>
+                                            <option value="EC">Erreur client lors de la commande (EC)</option>
+                                            <option value="EP">Erreur de préparation (EP)</option>
+                                            <option value="NP">Non présent lors de la livraison (NP)</option>
+                                            <option value="NPAI">N'habite pas à l'adresse indiquée (NPAI)</option>
+                                            <option value="SAV">Services SAV (SAV)</option>
                                         </select>
                                     </div>
                                 </div>

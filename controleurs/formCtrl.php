@@ -93,19 +93,31 @@
         $actionGet = $_GET['action'];
         switch ($actionGet){
             case "detailsCmd":
-                if(isset($_GET['numCmd'])){
+                if(estNbrRenseigne('numCmd')){
                     $numCmdGet = $_GET['numCmd'];
                     require_once ("cmdCtrl.php");
                     break;
                 }
 //______________________A revoir après regroupement du code
             case "detailsTicket":
-                if(isset($_GET['idTicketSAV'])){
+                if(estNbrRenseigne('idTicketSAV')){
                     $idTicket = $_GET['idTicketSAV'];
-                    require_once ("");
+                    require_once ("../vues/view_enConstr.php");
                     break;
                 }
 //_______________________
+            case "detailsClient":
+                if(isset($_GET['nomClient'])){
+                    $idTicket = $_GET['nomClient'];
+                    require_once ("../vues/view_enConstr.php");
+                    break;
+                }
+            case "detailsFact":
+                if(estNbrRenseigne('numFact')){
+                    $idTicket = $_GET['numFact'];
+                    require_once ("../vues/view_enConstr.php");
+                    break;
+                }
         }
     } else {
     if(isset($_POST['action'])){
@@ -197,12 +209,16 @@
 // var_dump($_POST);
                             $idCmd = $_POST['numCmd'];
                             $codeArticle = $_POST['codeArticle'];
-//-----------------------------------
                             $tArticleCmd = CmdMgr::getArticleCmd($idCmd,$codeArticle);                 
-                            if (count($tArticleCmd) == 1){
+                            if (count($tArticleCmd) == 1 && ($codeArticle === $tArticleCmd[0]['codeArticle'])){
+//var_dump($tArticleCmd[0]['codeArticle']);
                                 if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'], $codeArticle) == false) break;
+                            } else {
+                                $msg = "L'article ne correspond pas à l'article selectionner";
+                                $actionPost = "ajouterTicket";
+                                require_once("../vues/view_formAddTicket.php");
+                                break;
                             }
-//-----------------------------------
                         } else if(estNbrRenseigne('numCmd')) {
 
                             $idCmd = $_POST['numCmd'];
@@ -218,6 +234,8 @@
                             $tCommandes[0]['numCommande'] = $_POST['numCmd'];
                             $tCommandes[0]['codeArticle'] = $_POST['codeArticle'];
                             $tCommandes[0]['libArticle'] = $_POST['libArticle'];
+                            $tCommandes[0]['numFact']= $_POST['numFact'];
+                            $tCommandes[0]['nomClient'] = $_POST['nomClt'];
                         } else {
 //var_dump($_POST);
                             $tCommandes[0]['numCommande'] = $_POST['numCmd'];

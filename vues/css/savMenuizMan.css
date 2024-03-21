@@ -3,6 +3,7 @@ main {
     margin: auto;
     padding: 2%;
     position: relative; 
+    
   }
 
   main::after {
@@ -26,6 +27,8 @@ main {
     border-bottom: 1px solid #395395;
     color: #395395;
     max-height: 90px;
+    position: sticky;
+    top:0;
   }
   
   .custom-footer {
