@@ -1,10 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 main {
   font-family: Calibri, sans-serif;
   margin: auto;
   padding: 2%;
-  position: sticky;
- color: #395395;
+  color: #395395;
+  min-height: calc(100vh - 50px); /* 50px est la hauteur de votre footer */
+  overflow-y: auto; /* Ajoute une barre de défilement si le contenu dépasse la hauteur de la fenêtre */
+  position: relative; /* Définit le positionnement relatif pour les enfants positionnés */
 }
+
 
 main::after {
   margin-top: 10%;
@@ -13,7 +22,7 @@ main::after {
   background-image: url('../images/MenuizMan.png');
   background-size: cover;
   background-position:fixed;
-  position:fixed;
+  position:relative;
   top: 0;
   left: 0;
   width: 100%;
@@ -36,14 +45,15 @@ main::after {
   color: #395395;
   opacity:2; 
 }
+/* Style pour le footer */
 .custom-footer {
   background-color: #ffffff;
   border-top: 1px solid #395395;
   color: #395395;
-  position: absolute;
-  bottom: 0;
+  position: fixed; /* Positionnement absolu par rapport à son parent relatif */
+  bottom: 0; /* Colle le footer en bas de son parent */
   width: 100%;
-
+ 
 }
 
 .custom-container {

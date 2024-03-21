@@ -7,26 +7,36 @@
 $connexion = $_SESSION['nomUtilisateur'] ;
 ?>
 
-
-    <h1>Profil de <?= $_SESSION['nomUtilisateur'] ?></h1><br>
-    <form action="update-profile.php" method="POST">
-        <!-- Afficher les informations de l'utilisateur dans des champs de formulaire -->
-        <label for="nom">Nom:</label>
-        <input type="text" id="nom" name="nom" value="<?= $_SESSION['nomUtilisateur'] ?>" disabled>
-        <br>
-        <label for="nom">Prénom:</label>
-        <input type="text" id="prenom" name="prenom" value="<?= $_SESSION['prenomUtilisateur'] ?>" disabled>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?= $_SESSION['emailUtilisateur'] ?>" disabled>
-        <br>
-        <label for="nom">Profil:</label>
-        <input type="text" id="profil" name="profil" value="<?= $_SESSION['libProfil'] ?>" disabled>
-        <br>
-       
-    </form>
-
-    <a href="index.php?action=dashboard" class="retour" href="#">Retour à la page d'acceuil</a>
+<<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="#" method="POST">
+                <!-- Afficher les informations de l'utilisateur dans des champs de formulaire -->
+                <div class="form-group">
+                    <label for="nom">Nom:</label>
+                    <input type="text" id="nom" name="nom" class="form-control" value="<?= $_SESSION['nomUtilisateur'] ?>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom:</label>
+                    <input type="text" id="prenom" name="prenom" class="form-control" value="<?= $_SESSION['prenomUtilisateur'] ?>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" value="<?= $_SESSION['emailUtilisateur'] ?>" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="profil">Profil:</label>
+                    <input type="text" id="profil" name="profil" class="form-control" value="<?= $_SESSION['libProfil'] ?>" disabled>
+                </div>
+            </form>
+            
+            <!-- Bouton de retour -->
+            <div class="text-center ">
+                <a href="index.php?action=dashboard" class="btn  custom-submit-btn">Retour à la page d'accueil</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <?php

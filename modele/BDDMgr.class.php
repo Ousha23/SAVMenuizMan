@@ -10,7 +10,13 @@
                 return self::$bdd;
             }
     
-            $cheminFichier = "param.ini";
+            if (file_exists("param.ini")) {
+                $cheminFichier = "param.ini";
+            } else {
+                // Si le fichier n'existe pas dans le répertoire actuel, utilisez un chemin relatif
+                $cheminFichier = "../param.ini";
+            }
+            
             if (!file_exists($cheminFichier)) {
                 throw new ModeleException("Aucun fichier de configuration trouvé");
             }else{ 
