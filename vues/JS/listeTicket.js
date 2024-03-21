@@ -58,18 +58,3 @@ document.addEventListener("DOMContentLoaded", function() {
 var btnAnnuler = document.getElementById("idBtnAnnuler");
 
 btnAnnuler.addEventListener("click", function () {window.history.back();});
-// var btnRechercher = document.getElementById("idBtnRechercher");
-
-// // Vérifie si le bouton de recherche est correctement récupéré
-// console.log(btnRechercher);
-
-// btnRechercher.addEventListener("click", function() {
-//     // Appelle la fonction verifValues
-//     console.log("Clic sur le bouton de recherche");
-//     verifValues();
-// });
-
-// function verifValues() {
-//     alert("ça fonctionne");
-//     return false;
-// }

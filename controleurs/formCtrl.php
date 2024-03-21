@@ -29,12 +29,6 @@
     $idUser = 2;
     
 
-    // if (!isset($_SESSION['emailUtilisateur'])) {
-    //     // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
-    //     header('Location: login.php');
-    //     exit; // Assurez-vous de quitter le script après la redirection
-    // }
-
     /**
      * Verifie si le champs nbr n'est pas vide
      *
@@ -106,38 +100,6 @@
         }
     }
 
-
-//     if(isset($_GET['action'])){
-//         $actionGet = $_GET['action'];
-//         switch ($actionGet){
-//             case "detailsCmd":
-//                 if(estNbrRenseigne('numCmd')){
-//                     $numCmdGet = $_GET['numCmd'];
-//                     require_once ("/../controleurs/cmdCtrl.php");
-//                     break;
-//                 }
-// //______________________A revoir après regroupement du code
-//             case "detailsTicket":
-//                 if(estNbrRenseigne('idTicketSAV')){
-//                     $idTicket = $_GET['idTicketSAV'];
-//                     require_once ("../vues/view_enConstr.php");
-//                     break;
-//                 }
-// //_______________________
-//             case "detailsClient":
-//                 if(isset($_GET['nomClient'])){
-//                     $idTicket = $_GET['nomClient'];
-//                     require_once ("../vues/view_enConstr.php");
-//                     break;
-//                 }
-//             case "detailsFact":
-//                 if(estNbrRenseigne('numFact')){
-//                     $idTicket = $_GET['numFact'];
-//                     require_once ("../vues/view_enConstr.php");
-//                     break;
-//                 }
-//         }
-//     } else {
     if ($action == "dashboard") {
         if(isset($_GET['idTicket'])) {
             $idTicketSav = $_GET['idTicket']; 
@@ -146,143 +108,142 @@
             $numCmdGet = $_GET['numCommande'];
             $idProfil = $_SESSION['idPrifil'];
             require_once ("controleurs/cmdCtrl.php");
-    } else if(isset($_POST['action'])){
+        } else if(isset($_GET['nomClient']) || isset($_GET['idFact'])){
+            require_once ("vues/view_enConstr.php");
+        } else if(isset($_POST['action'])){
         $actionPost = $_POST['action'];
 //var_dump($actionPost);
 //var_dump($_POST['numTicket']);
 //die(); 
-            switch($actionPost){
-                case 'accueil':
-                    retourForm($actionPost,"","");
-                case 'Rechercher':
-                    $pageTitle = "Liste des Tickets";
-                    if(estNbrRenseigne('numTicket')){
-                        $idTicket = (int)$_POST['numTicket'];    
+        switch($actionPost){
+            case 'accueil':
+                retourForm($actionPost,"","");
+            case 'Rechercher':
+                $pageTitle = "Liste des Tickets";
+                if(estNbrRenseigne('numTicket')){
+                    $idTicket = (int)$_POST['numTicket'];    
 //var_dump($idTicket);
-                    } 
-                    if(estTxtRenseigne('dateTicket')){
-                        $dateTicket = $_POST['dateTicket'];
+                } 
+                if(estTxtRenseigne('dateTicket')){
+                    $dateTicket = $_POST['dateTicket'];
 //var_dump($dateTicket);
-                    } 
-                    if(estTxtRenseigne('etatTicket')){
-                        $statutTicket = $_POST['etatTicket'];
-                    } 
-                    if(estTxtRenseigne('typeDossier')){
-                        $idDossier = $_POST['typeDossier'];
-                    } 
-                    if(estNbrRenseigne('numFact')){
-                        $idFact = (int)$_POST['numFact'];
-                        $pageTitle = "Liste des tickets de la Facture N° : $idFact";
-                    } 
-                    if(estNbrRenseigne('numCmd')){
-                        $idCommande = (int)$_POST['numCmd'];
-                        $pageTitle = "Liste des tickets de la commande N° : $idCommande";
-                    } 
-                    if(estTxtRenseigne('nomClt')){
-                        $nomClt = $_POST['nomClt'];
-                        $pageTitle = "Liste des tickets des clients dont le nom contient : \"$nomClt\"";
-                    }
-                    try{
-                    $tTickets = TicketMgr::searchTicket($idTicket,$idCommande,$nomClt,$statutTicket,$idFact,$dateTicket,$idDossier);
+                } 
+                if(estTxtRenseigne('etatTicket')){
+                    $statutTicket = $_POST['etatTicket'];
+                } 
+                if(estTxtRenseigne('typeDossier')){
+                    $idDossier = $_POST['typeDossier'];
+                } 
+                if(estNbrRenseigne('numFact')){
+                    $idFact = (int)$_POST['numFact'];
+                    $pageTitle = "Liste des tickets de la Facture N° : $idFact";
+                } 
+                if(estNbrRenseigne('numCmd')){
+                    $idCommande = (int)$_POST['numCmd'];
+                    $pageTitle = "Liste des tickets de la commande N° : $idCommande";
+                } 
+                if(estTxtRenseigne('nomClt')){
+                    $nomClt = $_POST['nomClt'];
+                    $pageTitle = "Liste des tickets des clients dont le nom contient : \"$nomClt\"";
+                }
+                try{
+                $tTickets = TicketMgr::searchTicket($idTicket,$idCommande,$nomClt,$statutTicket,$idFact,$dateTicket,$idDossier);
 //var_dump($tTickets);
 //var_dump($idTicket);
+                } catch (Exception $e){
+                    $msgErreur ="Erreur : Merci de contacter un Administrateur.";
+                    error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
+                    retourForm($actionPost, $msgErreur,"");
+                }
+                
+                require_once __DIR__ . "/../vues/view_listTicket.php";
+                break;
+
+            case "ajouterTicket" :
+                if (isset($_POST['numCommande']) && isset($_POST['codeArticle'])){
+                    $numCmd = $_POST['numCommande'];
+                    $codeArticle = $_POST['codeArticle'];
+                    $msg = "";
+                    try {
+                        $tCommandes = CmdMgr::getArticleCmd($numCmd,$codeArticle);
                     } catch (Exception $e){
-                        $msgErreur ="Erreur : Merci de contacter un Administrateur.";
-                        error_log('Erreur lors de l\'exécution de la requête SQL : ' . $e->getMessage());
-                        retourForm($actionPost, $msgErreur,"");
+                        $msg ="Une erreur est survenue : Merci de contacter un Administrateur.";
+                        error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
+                        break;
                     }
-                   
-                    require_once __DIR__ . "/../vues/view_listTicket.php";
+                    require_once("vues/view_formAddTicket.php");
                     break;
-
-                case "ajouterTicket" :
-                    if (isset($_POST['numCommande']) && isset($_POST['codeArticle'])){
-                        $numCmd = $_POST['numCommande'];
-                        $codeArticle = $_POST['codeArticle'];
-                        $msg = "";
-                        try {
-                            $tCommandes = CmdMgr::getArticleCmd($numCmd,$codeArticle);
-                        } catch (Exception $e){
-                            $msg ="Une erreur est survenue : Merci de contacter un Administrateur.";
-                            error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
-                            break;
-                        }
-                        require_once("vues/view_formAddTicket.php");
-                        break;
-                    } else if(isset($_POST['numCommande'])){
-                        $numCmd = $_POST['numCommande'];
-                        $msg = "";
-                        try {
-                            $tCommandes = CmdMgr::getCmd($numCmd);
-                        } catch (Exception $e){
-                            $msg ="Une erreur est survenue : Merci de contacter un Administrateur.";
-                            error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
-                            break;
-                        }
-                        require_once("vues/view_formAddTicket.php");
-                        break;
-                    } else {
-                        $msg = "";
-                        $actionPost = "accueil";
-                        retourForm($actionPost,$msg,"");
+                } else if(isset($_POST['numCommande'])){
+                    $numCmd = $_POST['numCommande'];
+                    $msg = "";
+                    try {
+                        $tCommandes = CmdMgr::getCmd($numCmd);
+                    } catch (Exception $e){
+                        $msg ="Une erreur est survenue : Merci de contacter un Administrateur.";
+                        error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
                         break;
                     }
+                    require_once("vues/view_formAddTicket.php");
+                    break;
+                } else {
+                    $msg = "";
+                    $actionPost = "accueil";
+                    retourForm($actionPost,$msg,"");
+                    break;
+                }
 
-                case "ajouterTicketMAJ" :    
-                    if (estTxtRenseigne('descTicket') && estTxtRenseigne('typeDossier')) {
-                        $typeTicket = $_POST['typeDossier'];
-                        $descTicket = $_POST['descTicket'];
-                        if(estNbrRenseigne('numCmd') && estNbrRenseigne('codeArticle')){
+            case "ajouterTicketMAJ" :    
+                if (estTxtRenseigne('descTicket') && estTxtRenseigne('typeDossier')) {
+                    $typeTicket = $_POST['typeDossier'];
+                    $descTicket = $_POST['descTicket'];
+                    if(estNbrRenseigne('numCmd') && estNbrRenseigne('codeArticle')){
 //var_dump($_POST);
-                            $idCmd = $_POST['numCmd'];
-                            $codeArticle = $_POST['codeArticle'];
-                            $tArticleCmd = CmdMgr::getArticleCmd($idCmd,$codeArticle);  
-var_dump($codeArticle);
-var_dump($tArticleCmd[0]['codeArticle']); 
-var_dump(count($tArticleCmd));              
-                            if (count($tArticleCmd) == 1 && ((int)$codeArticle === $tArticleCmd[0]['codeArticle'])){
+                        $idCmd = $_POST['numCmd'];
+                        $codeArticle = $_POST['codeArticle'];
+                        $tArticleCmd = CmdMgr::getArticleCmd($idCmd,$codeArticle);  
+// var_dump($codeArticle);
+// var_dump($tArticleCmd[0]['codeArticle']); 
+// var_dump(count($tArticleCmd));              
+                        if (count($tArticleCmd) == 1 && ((int)$codeArticle === $tArticleCmd[0]['codeArticle'])){
 
-                                if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'], $codeArticle) == false) break;
-                            } else {
-                                $msg = "L'article ne correspond pas à l'article selectionner";
-                                $actionPost = "ajouterTicket";
-                                require_once("vues/view_formAddTicket.php");
-                                break;
-                            }
-                        } else if(estNbrRenseigne('numCmd')) {
-                            $idCmd = $_POST['numCmd'];
-                            if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'])== false) break;
+                            if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'], $codeArticle) == false) break;
+                        } else {
+                            $msg = "L'article ne correspond pas à l'article selectionner";
+                            $actionPost = "ajouterTicket";
+                            require_once("vues/view_formAddTicket.php");
+                            break;
                         }
+                    } else if(estNbrRenseigne('numCmd')) {
+                        $idCmd = $_POST['numCmd'];
+                        if (ajouterTicket($descTicket,$typeTicket,$idCmd,$idUser,$_POST['nomClt'],$_POST['numFact'])== false) break;
+                    }
 //var_dump($idCmd);
 //die();
-                    } else {   
-                        if(estTxtRenseigne('typeDossier')) $typeTicket = $_POST['typeDossier'];
-                        if (estTxtRenseigne('descTicket')) $descTicket = $_POST['descTicket'];
-                        if (isset($_POST['numCmd']) && isset($_POST['codeArticle'])){
+                } else {   
+                    if(estTxtRenseigne('typeDossier')) $typeTicket = $_POST['typeDossier'];
+                    if (estTxtRenseigne('descTicket')) $descTicket = $_POST['descTicket'];
+                    if (isset($_POST['numCmd']) && isset($_POST['codeArticle'])){
 //var_dump($_POST);
-                            $tCommandes[0]['numCommande'] = $_POST['numCmd'];
-                            $tCommandes[0]['codeArticle'] = $_POST['codeArticle'];
-                            $tCommandes[0]['libArticle'] = $_POST['libArticle'];
-                            $tCommandes[0]['numFact']= $_POST['numFact'];
-                            $tCommandes[0]['nomClient'] = $_POST['nomClt'];
-                        } else {
+                        $tCommandes[0]['numCommande'] = $_POST['numCmd'];
+                        $tCommandes[0]['codeArticle'] = $_POST['codeArticle'];
+                        $tCommandes[0]['libArticle'] = $_POST['libArticle'];
+                        $tCommandes[0]['numFact']= $_POST['numFact'];
+                        $tCommandes[0]['nomClient'] = $_POST['nomClt'];
+                    } else {
 //var_dump($_POST);
-                            $tCommandes[0]['numCommande'] = $_POST['numCmd'];
-                            $tCommandes[0]['nomClient'] = $_POST['nomClt'];
-                            $tCommandes[0]['numFact']= $_POST['numFact'];
-                            
-                        }
-//var_dump($tCommandes);
-                        $msg = "Merci de renseigner tous les champs (description et/ou type de ticket).";
-                        $actionPost = "ajouterTicket";
-                        require_once("vues/view_formAddTicket.php");
-                        break;
+                        $tCommandes[0]['numCommande'] = $_POST['numCmd'];
+                        $tCommandes[0]['nomClient'] = $_POST['nomClt'];
+                        $tCommandes[0]['numFact']= $_POST['numFact'];
+                        
                     }
-                }                
+//var_dump($tCommandes);
+                    $msg = "Merci de renseigner tous les champs (description et/ou type de ticket).";
+                    $actionPost = "ajouterTicket";
+                    require_once("vues/view_formAddTicket.php");
+                    break;
+                }
+        }                
     } else {
             retourForm($actionPost,"","");
     }
-        } else {
-            retourForm($actionPost,"","");
-        }
-    // }
+}

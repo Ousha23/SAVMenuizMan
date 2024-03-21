@@ -74,7 +74,7 @@ ob_start(); ?>
                     </div>
                     <div class="row ">
                         <div class="col-md-6 text-right ">
-                        <button  id="idBtnAnnuler" class="btn btn-primary custom-submit-btn" ><a href="index.php?action=dashboard&numCommande=<?=$tCommandes[0]['numCommande']?>"></a>Retour à la page précédente</button>
+                        <a href="index.php?action=dashboard&numCommande=<?=$tCommandes[0]['numCommande']?>" class="btn btn-primary custom-submit-btn ">Retour à la page précédente</a>
                         </div>
                         <div class="col-md-6 text-left">
                             <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
