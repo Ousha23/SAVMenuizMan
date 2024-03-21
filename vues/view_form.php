@@ -32,13 +32,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="idTypeTicket">Type du ticket</label>
-                                        <select class="form-control custom-input" name="typeDossier" id="idTypeTicket">
+                                        <select class="form-control custom-input" name="typeDossier" id="idTypeTicket" required>
                                             <option disabled selected>Choisissez une option</option>
-                                            <option value="EC">Erreur client lors de la commande</option>
-                                            <option value="EP">Erreur de préparation</option>
-                                            <option value="NP">Non présent lors de la livraison</option>
-                                            <option value="NPAI">N'habite pas à l'adresse indiquée</option>
-                                            <option value="SAV">Services SAV</option>
+                                            <option value="EC">Erreur client lors de la commande (EC)</option>
+                                            <option value="EP">Erreur de préparation (EP)</option>
+                                            <option value="NP">Non présent lors de la livraison (NP)</option>
+                                            <option value="NPAI">N'habite pas à l'adresse indiquée (NPAI)</option>
+                                            <option value="SAV">Services SAV (SAV)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -53,20 +53,24 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="idNomClt">Nom client</label>
-                                        <input type="text" class="form-control custom-input" name="nomClt" id="idNomClt">
+                                        <input type="text" class="form-control custom-input" name="nomClt" id="idNomClt" >
                                     </div>
                                 </div>
                             </div>
                             <div class="row justify-content-center text-center">
                                 <div class="form-group col-md-6">
+                                    <?php if($actionPost == "accueil") { ?> 
                                     <input type="submit" id ="idBtnRechercher" class="btn btn-primary custom-submit-btn btnRechercher" name="action" value="Rechercher">
+                                    <?php } ?>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <form class="row justify-content-center" action="index.php?action=dashboard" method="POST">
-                        <input type="hidden" name="action" value="ajouterTicket">
-                        <input type="submit" class="btn btn-primary custom-submit-btn" value="Ouvrir un nouveau ticket">
+                    <form class="row justify-content-center" action="../controleurs/formCtrl.php" method="POST">
+                        <?php if($actionPost !== "accueil") { ?>
+                        <input type="hidden" name="action" value="accueil">
+                        <input type="submit" class="btn btn-primary custom-submit-btn" value="Retour à la page de recherche">
+                        <?php } ?>
                     </form>
                 </div>
             </div>
@@ -74,6 +78,7 @@
     </main>
 <?php
     $siteTitle = "Interface de recherche";
+    $pageTitle = "Bienvenue dans l'espace de recherche";
     $contenu = ob_get_contents(); 
     ob_end_clean();              
     require("gabarit.php");

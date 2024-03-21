@@ -19,21 +19,16 @@
             
             if (!file_exists($cheminFichier)) {
                 throw new ModeleException("Aucun fichier de configuration trouvé");
-            }else{ 
+            } else { 
     
             $tParametres = parse_ini_file($cheminFichier, true);
     
             extract($tParametres['BDD']);
             $dsn = 'mysql:host='.$host.';port='.$port.';dbname='.$dbname.';charset=utf8';
-            try {
-                self::$bdd = new PDO($dsn, $login, $mdp, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-                return self::$bdd;
-            } catch (PDOException $e) {
-                // Log l'erreur dans un fichier par exemple
-                throw new Exception("Impossible de se connecter à la base de données");
+            self::$bdd = new PDO($dsn, $login, $mdp, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            return self::$bdd;
+            
             }
         }
-
-    }
     }
     
