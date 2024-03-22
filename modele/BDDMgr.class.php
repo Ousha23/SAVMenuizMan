@@ -8,7 +8,7 @@
             else {
                 $tParametres = parse_ini_file($cheminFichier, true);
                 //extract($tParametres['BDD']);
-                //extract($tParametres['BD']);
+                extract($tParametres['BD']);
                 $dsn = 'mysql:host='.$host.';port='.$port.';dbname='.$dbname.';charset=utf8';
                 try {
                     $bdd =new PDO($dsn, $login, $mdp , array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
@@ -19,3 +19,4 @@
             }
         }
     }
+
