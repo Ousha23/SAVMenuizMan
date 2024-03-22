@@ -1,0 +1,58 @@
+  .divForm {
+    background-color: #92C0E9;
+    border-radius: 10px;
+    border: 1px solid #395395;
+    padding: 30px;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+  }
+  
+  .btnRechercher {
+    margin-top: 30px;
+    opacity: 1;
+  }
+
+  textarea #idDescription{
+    width: 50px;
+  }
+  /* Style pour le footer */
+.custom-footer {
+  background-color: #ffffff;
+  border-top: 1px solid #395395;
+  color: #395395;
+  position: fixed; /* Positionnement absolu par rapport à son parent relatif */
+  bottom: 0; /* Colle le footer en bas de son parent */
+  width: 100%;
+ 
+}
+.tableListeTicket th{
+  background-color: #4788C3;
+  border: 2px solid #395395;
+}
+
+.tableListeTicket td{
+  background-color: #92C0E9;
+  border: 1px solid #ffffff;   
+}
+
+table #listeTickets {
+  opacity: 0.9;
+}
+
+a{
+  color: #395395;
+  text-decoration: underline;
+}
+a:hover{
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+h2 {
+  text-align: center;
+}
+.test {
+  color: white;
+  border: 2px solid #395395;
+}
