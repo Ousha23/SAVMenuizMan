@@ -40,7 +40,7 @@ echo
         $idProfil = $_SESSION['idPrifil'];
         switch ($idProfil) {
             case 1:
-                include 'vues/view-admin.php';
+                require 'controleurs/UserCtrl.php';
                 break;
             case 2:
                 if(isset($_GET['idTicket']) || (isset($_GET['numCommande']))){

@@ -244,6 +244,7 @@
                     require_once("vues/view_formAddTicket.php");
                     break;
                 }
+                break;
             case "modifierTicket":   
                 $idTicketSav = $_POST['idTicketSAV']; 
                 $ticketDetails = getTicketDetails($idTicketSav);
