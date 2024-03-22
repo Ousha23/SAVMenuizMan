@@ -28,10 +28,14 @@
         <?php endforeach;?>
         </tbody>
     </table>
+    <div class="text-center">
+        <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
+    </div>
 </main>
 <?php
+    $connexion = $_SESSION['nomUtilisateur'];
     $pageTitle = "Liste des utilisateurs";
     $contenu = ob_get_contents(); 
     ob_end_clean();
-    require_once "../vues/gabarit.php";
+    require_once "vues/gabarit.php";
 ?>

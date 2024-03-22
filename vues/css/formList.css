@@ -29,15 +29,13 @@
 .tableListeTicket th{
   background-color: #4788C3;
   border: 2px solid #395395;
+  opacity: 0.8;
 }
 
 .tableListeTicket td{
   background-color: #92C0E9;
-  border: 1px solid #ffffff;   
-}
-
-table #listeTickets {
-  opacity: 0.9;
+  border: 1px solid #ffffff; 
+  opacity: 0.8;
 }
 
 a{

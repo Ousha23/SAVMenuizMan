@@ -4,7 +4,7 @@
                <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="divForm">
-                        <form class="row justify-content-center" action="/controleurs/UserCtrl.php" method="post">
+                        <form class="row justify-content-center" action="index.php?action=dashboard" method="post">
                             <div class="col-md-6">
                             <div class="form-group">
                                     <label for="idUser">Identifiant</label>
@@ -42,11 +42,15 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6 text-left">
+                            <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
+                        </div>
     </main>
 <?php
 $siteTitle = "Liste des utilisateurs";
+$connexion = $_SESSION['nomUtilisateur'];
 $pageTitle = "Recherche d'un utilisateur";
 $contenu = ob_get_contents(); 
 ob_end_clean();
-require_once "../vues/gabarit.php";
+require_once "vues/gabarit.php";
 ?>

@@ -3,9 +3,11 @@
     $pageTitle = "Détails du ticket";
     $siteTitle = "Détails du ticket";
     $connexion = $_SESSION['nomUtilisateur'];
+
 ?>
 
 <main class="justify-content-center">
+    
     <div class="container-fluid">
         <?php if (isset($ticketDetails) && !empty($ticketDetails)): ?>
                 <div class="divForm">
@@ -22,20 +24,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="idEtatTicket">Etat du ticket</label>
-                                
-                                <select class="form-control custom-input" name="etatTicket" id="idEtatTicket">
-                                            <option disabled selected>Choisissez une option</option>
-                                            <option value="attente">En attente</option>
-                                            <option value="cours">En cours</option>
-                                            <option value="traite">Traité</option>
-                                        </select>
-                               
+                                <input type="text" class="form-control custom-input" id="idEtatTicket" readonly value=<?= $ticketDetails['statutTicket'] ?? '' ?> >
                             </div>
                             <div class="form-group">
                                 <label for="idTypeTicket">Type du ticket</label>
-                                <select class="form-control custom-input" id="idTypeTicket" readonly>
-                                    <option value="<?= $ticketDetails['idDossier'] ?? '' ?>" selected><?= $ticketDetails['idDossier'] ?? '' ?></option>
-                                </select>
+                                <input type="text" class="form-control custom-input" id="idTypeTicket" readonly value=<?= $ticketDetails['idDossier'] ?? '' ?> >
                             </div>
                         </div>
                         <div class="col-md-6">  
@@ -63,7 +56,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="idDescription">Description</label>
-                                <textarea class="form-control custom-input" id="idDescription" rows="5" ><?= $ticketDetails['description'] ?? '' ?></textarea>
+                                <textarea class="form-control custom-input" id="idDescription" rows="5" readonly><?= $ticketDetails['description'] ?? '' ?></textarea>
                             </div>
                         </div>
                             
