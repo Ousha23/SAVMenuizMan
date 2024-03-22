@@ -1,6 +1,6 @@
 
 <?php
-
+//var_dump($_POST);
 
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -250,6 +250,36 @@
                 $ticketDetails = getTicketDetails($idTicketSav);
                 require_once __DIR__ . "/../vues/view_modifier_ticket.php";
                 break;
+            case "modifierTicketMAJ":
+var_dump($_POST);
+                $idTicketSav = $_POST['idTicketSAV'];
+                $etatTicket = $_POST['etatTicket'];
+                $descrptTicket = $_POST['description'];
+                try { 
+                    TicketMgr::updateTicket($idTicketSav, $etatTicket,$descrptTicket);
+                    $msg = "Modification effectuée avec succès.";
+                    $actionPost = "accueil";
+                    retourForm($actionPost,$msg,"");
+                } catch (Exception $e) {
+                    $msg ="La modification n'a pas pu être effectuée. Merci de contacter un Administrateur.";
+                    error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
+                    break;
+                }
+                break;
+            case "listTicketsCmd":
+                $numCmd = $_POST['numCommande'];
+                try {
+                    $tTicketsByCmd = TicketMgr::getTicketsByCmd($numCmd);
+                } catch (Exception $e){
+                    $msg ="Une erreur est survenue : Merci de contacter un Administrateur.";
+                    error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
+                    break;
+                }
+//var_dump($tTicketsByCmd);
+                $msg = "";
+                $tCommandes = CmdMgr::getDetailCmd($numCmd);
+                require_once ("vues/view_consultCmd.php");
+            break;
         }                
     } else {
             retourForm($actionPost,"","");

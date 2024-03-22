@@ -4,6 +4,11 @@
 
     
     if($action == "dashboard"){
+
+        if(isset($_GET['idUser'])){
+            require_once "vues/view_enConstr.php";
+            die();
+        }
         if(isset($_POST['listeUsers']))
         {
         try{

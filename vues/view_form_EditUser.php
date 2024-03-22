@@ -47,9 +47,9 @@
                         </div>
     </main>
 <?php
-$siteTitle = "Liste des utilisateurs";
+$siteTitle = "Modifier un Utilisateur";
 $connexion = $_SESSION['nomUtilisateur'];
-$pageTitle = "Recherche d'un utilisateur";
+$pageTitle = "Modifier un Utilisateur";
 $contenu = ob_get_contents(); 
 ob_end_clean();
 require_once "vues/gabarit.php";

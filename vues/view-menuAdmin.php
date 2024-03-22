@@ -16,6 +16,7 @@
         </div>
     </main>
 <?php
+$siteTitle="Menu Admin";
 $connexion = $_SESSION['nomUtilisateur'];
 $contenu = ob_get_contents(); 
 $pageTitle="Gestion d'utilisateurs";
