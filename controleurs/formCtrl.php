@@ -103,7 +103,9 @@
     if ($action == "dashboard") {
         if(isset($_GET['idTicket'])) {
             $idTicketSav = $_GET['idTicket']; 
+            $idProfil = $_SESSION['idPrifil'];
             $ticketDetails = getTicketDetails($idTicketSav);
+            require_once __DIR__ . "/../vues/view_afficher_ticket.php";
         } else if(isset($_GET['numCommande'])) { 
             $numCmdGet = $_GET['numCommande'];
             $idProfil = $_SESSION['idPrifil'];
@@ -242,6 +244,11 @@
                     require_once("vues/view_formAddTicket.php");
                     break;
                 }
+            case "modifierTicket":   
+                $idTicketSav = $_POST['idTicketSAV']; 
+                $ticketDetails = getTicketDetails($idTicketSav);
+                require_once __DIR__ . "/../vues/view_modifier_ticket.php";
+                break;
         }                
     } else {
             retourForm($actionPost,"","");
