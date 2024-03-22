@@ -9,12 +9,12 @@
     <div class="container-fluid">
         <?php if (isset($ticketDetails) && !empty($ticketDetails)): ?>
                 <div class="divForm">
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                    <form action="index.php?action=dashboard" method="POST">
                     <div class="row justify-content-center">
                         <div class="col-md-6">    
                             <div class="form-group">
                                 <label for="idNumTicket">Numéro de ticket</label>
-                                <input type="text" class="form-control custom-input" id="idNumTicket" value="<?= $ticketDetails['idTicketSAV'] ?? '' ?>" readonly>
+                                <input type="text" class="form-control custom-input" name="idTicketSAV" id="idNumTicket" value="<?= $ticketDetails['idTicketSAV'] ?? '' ?>" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="idDate">Date du ticket</label>
@@ -41,7 +41,7 @@
                         <div class="col-md-6">  
                             <div class="form-group">
                                 <label for="idNumCmd">Numéro de la commande</label>
-                                <input type="text" class="form-control custom-input" id="idNumCmd" value="<?= $ticketDetails['numCommande'] ?? '' ?>" readonly>
+                                <input type="text" class="form-control custom-input"  id="idNumCmd" value="<?= $ticketDetails['numCommande'] ?? '' ?>" readonly>
                             </div>
 
                             <div class="form-group">
@@ -63,15 +63,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="idDescription">Description</label>
-                                <textarea class="form-control custom-input" id="idDescription" rows="5" ><?= $ticketDetails['description'] ?? '' ?></textarea>
+                                <textarea class="form-control custom-input" name="description" id="idDescription" rows="5" ><?= $ticketDetails['description'] ?? '' ?></textarea>
                             </div>
                         </div>
                             
                     </div>
                             <div class="form-group text-center">
-                                <button type="submit" name = "enregistrer" class="btn btn-primary custom-submit-btn">Enregister la modification</button>
+                                <input type="hidden" name="action" value="modifierTicketMAJ">
+                                <input type="submit" value ="Enregister la modification" class="btn btn-primary custom-submit-btn">
                             </div>
                         </form>
+
             </div>
         <?php else: ?>
             <h3 class="text-center">Aucun détail de ticket trouvé.</h3>

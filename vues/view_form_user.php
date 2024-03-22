@@ -37,9 +37,11 @@
                             </div>
                             <div class="container">
                                 <div class="row justify-content-center">
-                                    <div class="col-md-4 d-flex justify-content-md-between">
-                                        <input type="submit" class="btn btn-primary custom-submit-btn" value="Ajouter" name="ajoutUserForm"> 
-                                         <input type="reset" class="btn btn-primary custom-submit-btn" value="Réinitialiser" name="reset">
+                                    <div class="col-md-6 text-right">
+                                        <input type="submit" class="btn btn-primary custom-submit-btn" value="Ajouter" name="ajoutUserForm">  
+                                    </div>
+                                    <div class="col-md-6">
+                                    <input type="reset" class="btn btn-primary custom-submit-btn" value="Réinitialiser" name="reset">
                                     </div>
                                 </div>
                             </div>    
@@ -55,7 +57,7 @@
 
 <?php
 $connexion = $_SESSION['nomUtilisateur'];
-$siteTitle = "Liste des utilisateurs";
+$siteTitle = "ajout utilisateur";
 $pageTitle = "Ajout d'un utilisateur";
 $contenu = ob_get_contents(); 
 ob_end_clean();

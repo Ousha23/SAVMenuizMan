@@ -13,13 +13,58 @@
             <span class="font-weight-bold">Num Facture : </span><span><?php if (isset($tCommandes[0]['numFact'])) echo $tCommandes[0]['numFact']?></span><br>
             <span class="font-weight-bold">Date Facture : </span><span><?php if (isset($tCommandes[0]['dateFact'])) echo $tCommandes[0]['dateFact']?></span>
         </div>
-        <form class="col-md-2" method="post" action="index.php?action=dashboard">
-                <input type="hidden" name="numCommande" value="<?=$tCommandes[0]['numCommande']?>">
-                <input type="hidden" name="action" value="ajouterTicket">
-                <input type="submit" class="btn btn-primary custom-submit-btn" value="Ouvrir un ticket">
-        </form>
+        <div class="col-md-2">
+            <div clas="row justify-content-center">
+            <div class="d-flex flex-column align-items-center">
+                <form class="col-md-4" method="post" action="index.php?action=dashboard">
+                    <input type="hidden" name="numCommande" value="<?=$tCommandes[0]['numCommande']?>">
+                    <input type="hidden" name="action" value="ajouterTicket">
+                    <input type="submit" class="btn btn-primary custom-submit-btn px-3" value="Ouvrir un ticket">
+                </form>
+            <?php if($actionPost == "listTicketsCmd") { ?>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+        <h3 class="titreDetail text-center my-5">Liste des Ticket de la commande</h3>
+    <table id ="detailsCmd" class="table table-striped table-bordered dataTable tableListeTicket mt-5" style="width:100%">
+        <thead>
+            <tr>
+                <th><i class="fa-solid fa-sort"></i>  N° Ticket</th>
+                <th><i class="fa-solid fa-sort"></i>  Statut Ticket</th>
+                <th><i class="fa-solid fa-sort"></i>  Type Ticket</th>
+                <th><i class="fa-solid fa-sort"></i>  Date Ticket</th>
+                <th><i class="fa-solid fa-sort"></i>  Créateur Ticket</th>
+                <th><i class="fa-solid fa-sort"></i>  Description</th>
+            </tr>
+        </thead>
+        <tbody>  
+        <?php foreach ($tTicketsByCmd as $dataTicket):?>
+            <tr>
+                <td><?=$dataTicket['idTicketSAV']?></td>
+                <td><?=$dataTicket['statutTicket']?></td>
+                <td><?=$dataTicket['idDossier']?></td>
+                <td><?=$dataTicket['dateTicket']?></td>
+                <td><?=$dataTicket['nomUtilisateur']?></td>
+                <td><?=$dataTicket['description']?></td>
+
+            </tr>
+        <?php endforeach;?>
+        </tbody>
+    </table>
+            <?php } else {?>
+                <form class="col-md-4" method="post" action="index.php?action=dashboard">
+                    <input type="hidden" name="numCommande" value="<?=$tCommandes[0]['numCommande']?>">
+                    <input type="hidden" name="action" value="listTicketsCmd">
+                    <input type="submit" class="btn btn-primary custom-submit-btn" value="Liste des Tickets">
+                </form>
+            </div>
+            </div>
+            
+        </div>
     </div>
-    <h3 class="titreDetail text-center my-5">Détail de la commande</h3>
+    <h3 class="titreDetail text-center my-5">Liste des articles</h3>
     <table id ="detailsCmd" class="table table-striped table-bordered dataTable tableListeTicket mt-5" style="width:100%">
         <thead>
             <tr>
@@ -52,13 +97,14 @@
         <?php endforeach;?>
         </tbody>
     </table>
+    <?php }?>
     <div class="row justify-content-center">
         <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
     </div>
 </main>
 <?php
     $connexion = $_SESSION['nomUtilisateur'];
-    $pageTitle = "Détail de la commande N° : ".$numCmdGet;
+    $pageTitle = "Détail de la commande N° : ".$tCommandes[0]['numCommande'];
     $siteTitle = "Détails Commande";
     $contenu = ob_get_contents(); 
     ob_end_clean();              

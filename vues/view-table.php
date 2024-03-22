@@ -9,7 +9,7 @@
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Profil</th>
-                <!-- <th>Modifier</th> -->
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -20,9 +20,8 @@
                 <td><?=$user['prenomUtilisateur']?></td>
                 <td><?=$user['emailUtilisateur']?></td>
                 <td><?=$user['libProfil']?></td>
-                <!-- <form action="" method="get">
-                    <td><input type="submit" value="Détails" name="update"></td>
-                </form> -->
+                <td class="text-center"><a href="index.php?action=dashboard&idUser=<?=$user['idUtilisateur']?>" class="btn btn-primary custom-submit-btn">Modifier</a></td>
+                
                 
             </tr>
         <?php endforeach;?>
@@ -33,6 +32,7 @@
     </div>
 </main>
 <?php
+    $siteTitle="Liste Utilisateurs";
     $connexion = $_SESSION['nomUtilisateur'];
     $pageTitle = "Liste des utilisateurs";
     $contenu = ob_get_contents(); 

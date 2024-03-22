@@ -2,89 +2,104 @@
 
 // index.php (Contrôleur principal)
 
-
-
 session_start();
-
-// Vérifie si l'utilisateur est connecté et le rediriger vers la page d'acceuil
-/*if (isset($_SESSION['emailUtilisateur']) && ($_GET['action'] !== 'login' && $_GET['action'] !== 'dashboard')) {
- 
-    require_once('location: index.php?action=dashboard');
-    exit;
-}*/
-
-// Inclure le modèle
 
 require_once 'modele/LoginMerg.class.php';
 require_once 'modele/BDDMgr.class.php';
 
-
 $action = isset($_GET['action']) ? $_GET['action'] : '';
-$actionPost = isset($_POST['action']) ? $_POST['action'] : '';
 
-$email_err = $password_err = '';
-
+// Instancier le contrôleur approprié en fonction de l'action
 switch ($action) {
     case 'login':
-echo
-
-        require 'controleurs/loginCtrl.php'; 
+        $controller = new LoginController();
         break;
-    
     case 'dashboard':
-        if (!isset($_SESSION['emailUtilisateur']) || empty($_SESSION['emailUtilisateur'])) {
-            header('location: index.php?action=login');
-            exit;
-        } 
-        $mailProfil = $_SESSION['emailUtilisateur'];
-        $idProfil = $_SESSION['idPrifil'];
-        switch ($idProfil) {
-            case 1:
-                require 'controleurs/UserCtrl.php';
-                break;
-            case 2:
-                if(isset($_GET['idTicket']) || (isset($_GET['numCommande']))){
-                    require 'controleurs/formCtrl.php';
-                    break;
-                } else {
-                    $actionPost = "accueil";
-                    require 'controleurs/formCtrl.php';
-                    break;
-                }
-            case 3:
-                if(isset($_GET['idTicket']) || (isset($_GET['numCommande']))){
-                    require 'controleurs/formCtrl.php';
-                    break;
-                } else {
-                    $actionPost = "accueil";
-                    require 'controleurs/formCtrl.php';
-                    break;
-                }
-
-            // default:
-            //     header('location: index.php?action=login');
-            //     exit;
-        }
+        $controller = new DashboardController();
         break;
- 
     
-    case 'profile':
-        if (!isset($_SESSION['emailUtilisateur']) || empty($_SESSION['emailUtilisateur'])) {
-            header('location: index.php?action=login');
-            exit;
-        }
-        include 'vues/view-profile.php';
+    default:
+        // Rediriger vers la page de connexion 
+        $controller = new LoginController();
         break;
+}
+
+// Exécuter l'action appropriée
+$controller->handleAction($action);
+
+// Classe LoginController
+class LoginController {
+    public function handleAction($action) {
+        switch ($action) {
+            case 'login':
+                require 'controleurs/loginCtrl.php'; 
+        break;
+    
+                break;
+            default:
+            header('location: index.php?action=login');
+           
+                break;
+        }
+    }
+}
+
+// Classe DashboardController
+class DashboardController {
+    public function handleAction($action) {
+        switch ($action) {
+            case 'dashboard':
+                if (!isset($_SESSION['emailUtilisateur']) || empty($_SESSION['emailUtilisateur'])) {
+                    header('location: index.php?action=login');
+                    exit;
+                } 
         
-    case 'logout':
-        logout();
+                $idProfil = $_SESSION['idPrifil'];
+                switch ($idProfil) {
+                    case 1:
+                        include 'vues/view-admin.php';
+                        break;
+                    case 2:
+                        if(isset($_GET['idTicket'])){
+                            require 'controleurs/formCtrl.php';
+                            break;
+                        } else {
+                            $actionPost = "accueil";
+                            require 'controleurs/formCtrl.php';
+                            break;
+                        }
+                            
+        
+                    case 3:
+                        if(isset($_GET['idTicket'])){
+                            require 'controleurs/formCtrl.php';
+                            break;
+                        } else {
+                            $actionPost = "accueil";
+                            require 'controleurs/formCtrl.php';
+                            break;
+                        }
+                }
+                break;
+         
+            case 'profile':
+                if (!isset($_SESSION['emailUtilisateur']) || empty($_SESSION['emailUtilisateur'])) {
+                    header('location: index.php?action=login');
+                    exit;
+                }
+                include 'vues/view-profile.php';
+                break;
+            case 'logout':
+                logout();
         header('location: index.php?action=login');
         exit;
       
-        
-    default:
-        header('location: index.php?action=login');
-        exit;
+            default:
+            require 'controleurs/formCtrl.php';
+                break;
+        }
+    }
 }
+
 
 ?>

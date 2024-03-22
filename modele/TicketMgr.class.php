@@ -99,6 +99,35 @@
                 throw $e;
             }  
         }
+
+        /**
+         * Affiche la liste des Tickets d'une commande donnée
+         *
+         * @param integer $idCmd
+         * @return array
+         */
+        public static function getTicketsByCmd(int $idCmd):array{
+            $bdd = BDDMgr::getBDD();
+            $sql = "SELECT * FROM `Ticket` T
+            INNER JOIN `Utilisateur` U on T.idUtilisateur = U.idUtilisateur
+            WHERE numCommande = ?;";
+            $resultat = $bdd->prepare($sql);
+            $resultat->execute(array($idCmd));
+            $resultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
+            return $resultat;
+        }
+
+        public static function updateTicket(int $idTicket,string $etatTicket,string $description){
+            $bdd = BDDMgr::getBDD();
+            $sql = "UPDATE Ticket SET statutTicket = :etatTicket, description = :description WHERE idTicketSAV = :idTicket";
+            $stmt = $bdd->prepare($sql);
+            $stmt->bindParam(':etatTicket', $etatTicket);
+            $stmt->bindParam(':description', $description);
+            $stmt->bindParam(':idTicket', $idTicket);
+            
+            $resultat = $stmt->execute();
+        }
+
 //Fonctions utilisées précédemment dans le formulaire de création ticket avec saisi de données(cmd, fact ..) par l'agent
         // /**
         //  * Récupère le num de commande en utilisant le numero de facture
@@ -170,5 +199,6 @@
 //$test = TicketMgr::getNumCmd('1');
 //$test = TicketMgr::getNomCltByCmd(1);
 // $test = TicketMgr::getNomCltByFact(1);
-//var_dump($test);
+// $test = TicketMgr::getTicketsByCmd(100);
+// var_dump($test);
     
