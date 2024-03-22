@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__ . '/../modele/BDDMgr.class.php';
-
+/**
+ * fonction pour la connexion
+ *
+ * @param [type] $email
+ * @param [type] $password
+ * @return void
+ */
 function login($email, $password) {
     $pdo = BDDMgr::getBDD();
     
@@ -43,7 +49,11 @@ function login($email, $password) {
         die('Erreur lors de la préparation de la requête.');
     }
 }
-
+/**
+ * fonction pour logout
+ *
+ * @return void
+ */
 function logout() {
     // Détruit toutes les valeurs de session
     $_SESSION = array();
