@@ -12,7 +12,7 @@ function getTicketDetails($idTicketSav) {
     $pdo = BDDMgr::getBDD();
 
     // Préparez la requête SQL
-    $stmt = $pdo->prepare("SELECT T.idTicketSAV, T.description, T.statutTicket, T.dateTicket, T.idDossier, C.numCommande, Clt.nomClient, F.numFact, R.codeArticle, A.libArticle 
+    $stmt = $pdo->prepare("SELECT statutDiagnostic, qteStockSAV, idMiseEnRebus, T.idTicketSAV, T.description, T.statutTicket, T.dateTicket, T.idDossier, C.numCommande, Clt.nomClient, F.numFact, R.codeArticle, A.libArticle 
     FROM `Ticket` T 
     LEFT JOIN Retourner R ON R.idTicketSAV = T.idTicketSAV
     LEFT JOIN Article A ON A.codeArticle = R.codeArticle

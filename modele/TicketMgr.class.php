@@ -113,8 +113,8 @@
             WHERE numCommande = ?;";
             $resultat = $bdd->prepare($sql);
             $resultat->execute(array($idCmd));
-            $resultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
-            return $resultat;
+            $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
+            return $tResultat;
         }
 
         public static function updateTicket(int $idTicket,string $etatTicket,string $description){
@@ -128,6 +128,63 @@
             $resultat = $stmt->execute();
         }
 
+        public static function getTicket (int $idTicket):array{
+            $bdd = BDDMgr::getBDD();
+            $sql = "SELECT * FROM Ticket WHERE ?";
+            $resultat = $bdd->prepare($sql);
+            $resultat->execute(array($idTicket));
+            $tResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
+            return $tResultat;
+        }
+
+        /**
+         * Fonction pour récupérer le ticket et ses information
+         *
+         * @param [type] $idTicketSav
+         * @return void
+         */
+        public static function getTicketDetails($idTicketSav) {
+            // Connexion à la base de données (à adapter selon votre configuration)
+            $pdo = BDDMgr::getBDD();
+
+            // Préparez la requête SQL
+            $stmt = $pdo->prepare("SELECT statutDiagnostic, qteStockSAV, idMiseEnRebus, T.idTicketSAV, T.description, T.statutTicket, T.dateTicket, T.idDossier, C.numCommande, Clt.nomClient, F.numFact, R.codeArticle, A.libArticle 
+            FROM `Ticket` T 
+            LEFT JOIN Retourner R ON R.idTicketSAV = T.idTicketSAV
+            LEFT JOIN Article A ON A.codeArticle = R.codeArticle
+            INNER JOIN Commande C ON C.numCommande = T.numCommande
+            LEFT JOIN Client Clt ON Clt.idClient = C.idClient
+            LEFT JOIN Facture F ON F.numCommande = C.numCommande
+            WHERE T.idTicketSAV = :idTicketSav");
+
+            // Liez le paramètre :idTicketSav
+            $stmt->bindParam(':idTicketSav', $idTicketSav, PDO::PARAM_INT);
+
+            // Exécutez la requête
+            $stmt->execute();
+
+            // Récupérez les résultats
+            $ticketDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Retournez les détails du ticket
+            return $ticketDetails;
+        }
+
+        public static function updateTicketRetourner(int $idTicket, int $codeArticle,string $etatTicket, string $description, int $qteSAV, ?string $diagnostic, ?int $idMisEnRebus){
+            $bdd = BDDMgr::getBDD();
+            try {
+                $bdd->beginTransaction();
+                TicketMgr::updateTicket($idTicket,$etatTicket,$description);
+                $sql = "UPDATE `Retourner` SET `qteStockSAV`=?,`statutDiagnostic`=?, `IdMiseEnRebus`=? WHERE `idTicketSAV`=? and `codeArticle`=?";
+                $resultat = $bdd->prepare($sql);
+                $resultat->execute(array($qteSAV,$diagnostic,$idMisEnRebus,$idTicket,$codeArticle));
+                $bdd->commit();
+                echo "fait";
+            } catch (PDOException $e){
+                $bdd->rollBack();
+                throw $e;
+            } 
+        }
 //Fonctions utilisées précédemment dans le formulaire de création ticket avec saisi de données(cmd, fact ..) par l'agent
         // /**
         //  * Récupère le num de commande en utilisant le numero de facture
@@ -199,6 +256,7 @@
 //$test = TicketMgr::getNumCmd('1');
 //$test = TicketMgr::getNomCltByCmd(1);
 // $test = TicketMgr::getNomCltByFact(1);
-// $test = TicketMgr::getTicketsByCmd(100);
-// var_dump($test);
+// $test = TicketMgr::getTicketsByCmd(1);
+//$test = TicketMgr::updateTicketRetourner(50,1,"En cours","test update ticket avc retour",1,"en cours",null);
+//var_dump($test);
     

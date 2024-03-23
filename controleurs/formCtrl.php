@@ -104,7 +104,7 @@
         if(isset($_GET['idTicket'])) {
             $idTicketSav = $_GET['idTicket']; 
             $idProfil = $_SESSION['idPrifil'];
-            $ticketDetails = getTicketDetails($idTicketSav);
+            $ticketDetails = TicketMgr::getTicketDetails($idTicketSav);
             require_once __DIR__ . "/../vues/view_afficher_ticket.php";
         } else if(isset($_GET['numCommande'])) { 
             $numCmdGet = $_GET['numCommande'];
@@ -245,24 +245,59 @@
                     break;
                 }
                 break;
-            case "modifierTicket":   
+            case "modifierTicket":
+                $ticketTraite = false;
+                $msgErreur ="";
                 $idTicketSav = $_POST['idTicketSAV']; 
-                $ticketDetails = getTicketDetails($idTicketSav);
+                $ticketDetails = TicketMgr::getTicketDetails($idTicketSav);
+                var_dump($ticketDetails['statutTicket']);
+                if ($ticketDetails['statutTicket'] == "Traité"){
+                    $ticketTraite = true;
+                    $msgErreur ="Le Ticket ".$idTicketSav." est déjà traité, vous ne pouvez plus le modifier.";
+                    require_once __DIR__ . "/../vues/view_modifier_ticket.php";
+                    break;
+                }
+var_dump($ticketDetails);
                 require_once __DIR__ . "/../vues/view_modifier_ticket.php";
                 break;
             case "modifierTicketMAJ":
-var_dump($_POST);
-                $idTicketSav = $_POST['idTicketSAV'];
-                $etatTicket = $_POST['etatTicket'];
-                $descrptTicket = $_POST['description'];
+                
+                if(estNbrRenseigne('idTicketSAV')) $idTicketSAV = $_POST['idTicketSAV'];
+                if(estTxtRenseigne('etatTicket')) $etatTicket = $_POST['etatTicket'];
+//die();
+                if (estTxtRenseigne('description')) $descrptTicket = $_POST['description'];
+                if (estNbrRenseigne('codeArticle')) $codeArticle = $_POST['codeArticle'];
+                if (estTxtRenseigne('diagnostic')) $diagnostic = $_POST['diagnostic'];
+                if (estTxtRenseigne('actionArticle')) {
+                 $actionArticle = $_POST['$actionArticle'];
+                 $misEnRebus = null;
+                    switch ($actionArticle){
+                        case 'miseSAVStock':
+                            $qtStockSAV = 1;
+                            TicketMgr::updateTicketRetourner($idTicketSAV,$codeArticle,$etatTicket, $descrptTicket, $qtStockSAV, $diagnostic,$misEnRebus);
+                            break;
+                        case 'miseEnRebus':
+                            $qtStockSAV = 0;
+                            $qtRebus = 1;
+                            break;
+                        case 'reexpedition':
+                            $qtStockSAV = 0;
+                            $qtReexped = 1;
+                            break;
+                    }
+                break;
+                }
                 try { 
-                    TicketMgr::updateTicket($idTicketSav, $etatTicket,$descrptTicket);
+//var_dump($_POST);
+                    TicketMgr::updateTicket($idTicketSAV, $etatTicket,$descrptTicket);
                     $msg = "Modification effectuée avec succès.";
                     $actionPost = "accueil";
                     retourForm($actionPost,$msg,"");
                 } catch (Exception $e) {
-                    $msg ="La modification n'a pas pu être effectuée. Merci de contacter un Administrateur.";
+                    $msgErreur ="La modification n'a pas pu être effectuée. Merci de contacter un Administrateur.";
                     error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
+                    $ticketDetails = TicketMgr::getTicketDetails($idTicketSAV);
+                    require_once __DIR__ . "/../vues/view_modifier_ticket.php";
                     break;
                 }
                 break;
