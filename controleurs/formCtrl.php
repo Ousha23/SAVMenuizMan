@@ -257,32 +257,69 @@
                     require_once __DIR__ . "/../vues/view_modifier_ticket.php";
                     break;
                 }
-var_dump($ticketDetails);
+//var_dump($ticketDetails);
                 require_once __DIR__ . "/../vues/view_modifier_ticket.php";
                 break;
             case "modifierTicketMAJ":
                 
                 if(estNbrRenseigne('idTicketSAV')) $idTicketSAV = $_POST['idTicketSAV'];
                 if(estTxtRenseigne('etatTicket')) $etatTicket = $_POST['etatTicket'];
-//die();
+//die();        
                 if (estTxtRenseigne('description')) $descrptTicket = $_POST['description'];
                 if (estNbrRenseigne('codeArticle')) $codeArticle = $_POST['codeArticle'];
                 if (estTxtRenseigne('diagnostic')) $diagnostic = $_POST['diagnostic'];
+                if (estNbrRenseigne('numCommande')) $numCommande = $_POST['numCommande'];
                 if (estTxtRenseigne('actionArticle')) {
-                 $actionArticle = $_POST['$actionArticle'];
-                 $misEnRebus = null;
+                 $actionArticle = $_POST['actionArticle'];
+                 $qtRebus = null;
+                 $qtReexped = null;
                     switch ($actionArticle){
                         case 'miseSAVStock':
                             $qtStockSAV = 1;
-                            TicketMgr::updateTicketRetourner($idTicketSAV,$codeArticle,$etatTicket, $descrptTicket, $qtStockSAV, $diagnostic,$misEnRebus);
+                            try{
+                                TicketMgr::updateTicketStock($idTicketSAV, $codeArticle, $etatTicket, $descrptTicket, $qtStockSAV, $qtRebus, $qtReexped, $numCommande, $diagnostic);
+                            } catch (Exception $e) {
+                                $msgErreur ="La modification n'a pas pu être effectuée. Merci de contacter un Administrateur.";
+                                error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
+                                $ticketDetails = TicketMgr::getTicketDetails($idTicketSAV);
+                                require_once __DIR__ . "/../vues/view_modifier_ticket.php";
+                                break;
+                            }
+                            $msg = "Modification effectuée avec succès. MAJ Stock SAV effectuée.";
+                            $actionPost = "accueil";
+                            retourForm($actionPost,$msg,"");
                             break;
                         case 'miseEnRebus':
                             $qtStockSAV = 0;
                             $qtRebus = 1;
+                            try{
+                                TicketMgr::updateTicketStock($idTicketSAV, $codeArticle, $etatTicket, $descrptTicket, $qtStockSAV, $qtRebus, $qtReexped, $numCommande, $diagnostic);
+                            } catch (Exception $e) {
+                                $msgErreur ="La modification n'a pas pu être effectuée. Merci de contacter un Administrateur.";
+                                error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
+                                $ticketDetails = TicketMgr::getTicketDetails($idTicketSAV);
+                                require_once __DIR__ . "/../vues/view_modifier_ticket.php";
+                                break;
+                            }
+                            $msg = "Modification effectuée avec succès. MAJ Rebus et Stock SAV effectuée.";
+                            $actionPost = "accueil";
+                            retourForm($actionPost,$msg,"");
                             break;
                         case 'reexpedition':
                             $qtStockSAV = 0;
                             $qtReexped = 1;
+                            try{
+                                TicketMgr::updateTicketStock($idTicketSAV, $codeArticle, $etatTicket, $descrptTicket, $qtStockSAV, $qtRebus, $qtReexped, $numCommande, $diagnostic);
+                            } catch (Exception $e) {
+                                $msgErreur ="La modification n'a pas pu être effectuée. Merci de contacter un Administrateur.";
+                                error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
+                                $ticketDetails = TicketMgr::getTicketDetails($idTicketSAV);
+                                require_once __DIR__ . "/../vues/view_modifier_ticket.php";
+                                break;
+                            }
+                            $msg = "Modification effectuée avec succès. MAJ Expédition et Stock SAV effectuée.";
+                            $actionPost = "accueil";
+                            retourForm($actionPost,$msg,"");
                             break;
                     }
                 break;

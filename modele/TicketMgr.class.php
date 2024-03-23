@@ -117,6 +117,14 @@
             return $tResultat;
         }
 
+        /**
+         * MAJ Ticket sans articles
+         *
+         * @param integer $idTicket
+         * @param string $etatTicket
+         * @param string $description
+         * @return void
+         */
         public static function updateTicket(int $idTicket,string $etatTicket,string $description){
             $bdd = BDDMgr::getBDD();
             $sql = "UPDATE Ticket SET statutTicket = :etatTicket, description = :description WHERE idTicketSAV = :idTicket";
@@ -128,6 +136,12 @@
             $resultat = $stmt->execute();
         }
 
+        /**
+         * Recupère ma table Ticket
+         *
+         * @param integer $idTicket
+         * @return array
+         */
         public static function getTicket (int $idTicket):array{
             $bdd = BDDMgr::getBDD();
             $sql = "SELECT * FROM Ticket WHERE ?";
@@ -170,16 +184,49 @@
             return $ticketDetails;
         }
 
-        public static function updateTicketRetourner(int $idTicket, int $codeArticle,string $etatTicket, string $description, int $qteSAV, ?string $diagnostic, ?int $idMisEnRebus){
+        /**
+         * MAJ Ticket avec des articles et MAJ des stocks correspondants
+         *
+         * @param integer $idTicket
+         * @param integer $codeArticle
+         * @param string $etatTicket
+         * @param string $description
+         * @param integer $qteSAV
+         * @param integer|null $qteRebus
+         * @param integer|null $qteExpedier
+         * @param integer|null $numCommande
+         * @param string|null $diagnostic
+         * @return void
+         */
+        public static function updateTicketStock(int $idTicket, int $codeArticle,string $etatTicket, string $description, int $qteSAV, ?int $qteRebus, ?int $qteExpedier, ?int $numCommande, ?string $diagnostic) {
             $bdd = BDDMgr::getBDD();
             try {
                 $bdd->beginTransaction();
+                $lastIdRebus = null;
+                $lastIdExped = null;
+                $statutExped = "Traitée";
+                if ($qteRebus == 1){
+                    $sql = "INSERT INTO `Rebus`(`QteRebus`, `dateMiseRebu`) VALUES (?,CURRENT_DATE)";
+                    $resultat = $bdd->prepare($sql);
+                    $resultat->execute(array($qteRebus));
+                    $lastIdRebus = $bdd->lastInsertId();
+                }
+                if ($qteExpedier == 1){
+                    $sql = "INSERT INTO `Expedition`(`statutExp`, `dateExp`, `numCommande`) VALUES (?,CURRENT_DATE,?)";
+                    $resultat = $bdd->prepare($sql);
+                    $resultat->execute(array($statutExped,$numCommande));
+                    $lastIdExped = $bdd->lastInsertId();
+                }
+                if ($lastIdExped != null){
+                    $sql = "INSERT INTO `Concerner`(`idExpedition`, `codeArticle`, `qteExpArticle`) VALUES (?,?,?)";
+                    $resultat = $bdd->prepare($sql);
+                    $resultat->execute(array($lastIdExped,$codeArticle,$qteExpedier));
+                }
                 TicketMgr::updateTicket($idTicket,$etatTicket,$description);
                 $sql = "UPDATE `Retourner` SET `qteStockSAV`=?,`statutDiagnostic`=?, `IdMiseEnRebus`=? WHERE `idTicketSAV`=? and `codeArticle`=?";
                 $resultat = $bdd->prepare($sql);
-                $resultat->execute(array($qteSAV,$diagnostic,$idMisEnRebus,$idTicket,$codeArticle));
+                $resultat->execute(array($qteSAV,$diagnostic,$lastIdRebus,$idTicket,$codeArticle));
                 $bdd->commit();
-                echo "fait";
             } catch (PDOException $e){
                 $bdd->rollBack();
                 throw $e;
@@ -248,6 +295,20 @@
         //         return array();
         //     }
         // }
+        // public static function updateTicketRetourner(int $idTicket, int $codeArticle,string $etatTicket, string $description, int $qteSAV, ?int $idMisEnRebus, ?string $diagnostic){
+        //     $bdd = BDDMgr::getBDD();
+        //     try {
+        //         $bdd->beginTransaction();
+        //         TicketMgr::updateTicket($idTicket,$etatTicket,$description);
+        //         $sql = "UPDATE `Retourner` SET `qteStockSAV`=?,`statutDiagnostic`=?, `IdMiseEnRebus`=? WHERE `idTicketSAV`=? and `codeArticle`=?";
+        //         $resultat = $bdd->prepare($sql);
+        //         $resultat->execute(array($qteSAV,$diagnostic,$idMisEnRebus,$idTicket,$codeArticle));
+        //         $bdd->commit();
+        //     } catch (PDOException $e){
+        //         $bdd->rollBack();
+        //         throw $e;
+        //     } 
+        // }
 }
 
     
@@ -258,5 +319,7 @@
 // $test = TicketMgr::getNomCltByFact(1);
 // $test = TicketMgr::getTicketsByCmd(1);
 //$test = TicketMgr::updateTicketRetourner(50,1,"En cours","test update ticket avc retour",1,"en cours",null);
-//var_dump($test);
+//$test = TicketMgr::updateTicketStock(51,1,"En cours","test misEnRebus",0,1,0,6,"test rebus");
+// $test = TicketMgr::updateTicketStock(52,1,"En cours","test expedition",0,0,1,6,"test reexpedition");
+// var_dump($test);
     

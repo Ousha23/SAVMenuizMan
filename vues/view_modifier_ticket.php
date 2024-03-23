@@ -49,7 +49,7 @@
                         <div class="col-md-6">  
                             <div class="form-group">
                                 <label for="idNumCmd">Numéro de la commande</label>
-                                <input type="text" class="form-control custom-input"  id="idNumCmd" value="<?= $ticketDetails['numCommande'] ?? '' ?>" readonly>
+                                <input type="text" class="form-control custom-input" name="numCommande" id="idNumCmd" value="<?= $ticketDetails['numCommande'] ?? '' ?>" readonly>
                             </div>
 
                             <div class="form-group">

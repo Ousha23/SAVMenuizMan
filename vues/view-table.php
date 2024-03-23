@@ -1,7 +1,7 @@
 
 <?php ob_start(); ?>
 <main>
-    <table id ="" class="table table-striped table-bordered dataTable tableListeTicket" style="width:100%">
+    <table id ="listeTickets" class="table table-striped table-bordered dataTable tableListeTicket" style="width:100%">
         <thead>
             <tr>
                 <th>N° Utilisateur</th>
