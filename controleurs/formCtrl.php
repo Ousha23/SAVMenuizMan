@@ -9,7 +9,7 @@
 
     require_once __DIR__ . '/../modele/CmdMgr.class.php';
     require_once __DIR__ . '/../modele/TicketMgr.class.php';
-    require_once __DIR__ . '/../modele/afficheTicketMgr.php';
+    //require_once __DIR__ . '/../modele/afficheTicketMgr.php';
 
     $idTicket = null;
     $idCommande = null;
