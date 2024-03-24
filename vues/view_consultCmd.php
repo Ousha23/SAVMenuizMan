@@ -89,7 +89,7 @@
                 <td><?=$dataCommande['qteArticle']?></td>
                 <td><?=$dataCommande['garantie_Article']?></td>
                 <td><?=$dataCommande['idExpedition']?></td>
-                <td><?=$dataCommande['dateExp']?></td>
+                <td><?php if(isset($dataCommande['idExpedition'])) echo $dataCommande['dateExp']?></td>
                 <td><form class="row justify-content-center" method="post" action="index.php?action=dashboard">
                         <input type="hidden" name="codeArticle" value="<?=$dataCommande['codeArticle']?>">
                         <input type="hidden" name="numCommande" value="<?=$dataCommande['numCommande']?>">

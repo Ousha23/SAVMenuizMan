@@ -137,7 +137,7 @@
         }
 
         /**
-         * Recupère ma table Ticket
+         * Recupère la table Ticket
          *
          * @param integer $idTicket
          * @return array

@@ -30,7 +30,7 @@
     
 
     /**
-     * Verifie si le champs nbr n'est pas vide
+     * Verifie si le champs Txt n'est pas vide
      *
      * @param [type] $champs
      * @return void
@@ -261,7 +261,7 @@
                 require_once __DIR__ . "/../vues/view_modifier_ticket.php";
                 break;
             case "modifierTicketMAJ":
-                
+                $diagnostic = null;
                 if(estNbrRenseigne('idTicketSAV')) $idTicketSAV = $_POST['idTicketSAV'];
                 if(estTxtRenseigne('etatTicket')) $etatTicket = $_POST['etatTicket'];
 //die();        

@@ -15,6 +15,7 @@
         $msg = "Le N° de Commande ne figure pas dans la base de données";
     }
     
+    
     require_once ("vues/view_consultCmd.php");
 
 
