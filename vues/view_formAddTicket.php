@@ -73,10 +73,10 @@ ob_start(); ?>
                         <?php }?>
                     </div>
                     <div class="row ">
-                        <div class="col-md-6 text-right ">
+                        <div class="col-md-6 text-center text-md-right ">
                         <a href="index.php?action=dashboard&numCommande=<?=$tCommandes[0]['numCommande']?>" class="btn btn-primary custom-submit-btn ">Retour à la page précédente</a>
                         </div>
-                        <div class="col-md-6 text-left">
+                        <div class="col-md-6 text-center text-md-left">
                             <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
                         </div>
                     </div>

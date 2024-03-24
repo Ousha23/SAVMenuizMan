@@ -2,7 +2,6 @@
     require_once __DIR__ . '/../modele/UserMgr.class.php';
     //----------------afficher liste utilisateur-----
 
-echo "je suis là";
     if($action == "dashboard"){
 
         if(isset($_GET['idUser'])){
@@ -13,7 +12,7 @@ echo "je suis là";
         {
         try{
             $tUsers = UserMgr::getListUsers(); 
-// var_dump($tUsers); 
+//var_dump($tUsers); 
             require_once "vues/view-table.php";    
         }catch(PDOException $e){
             die("<h1>Erreur de connexion :</h1>".$e ->getMessage());
@@ -43,12 +42,14 @@ echo "je suis là";
         die();
         }  else{
             try{
+            echo "je suis LA";
                 UserMgr::addUser($nomUtilisateur, $prenomUtilisateur, $emailUtilisateur, $mdpUtilisateur, $idProfil);
             } catch (PDOException $e){
-                $msg = "Une erreur est survenue lors de l'ajout à la BDD";
+                $msgUser = "Une erreur est survenue lors de l'ajout à la BDD";
+                require_once "vues/view_form_user.php";  
             }
-          $msgUser = '<h3 class="text-center">Ajout effectué avec succès</h3>';
-          require_once  "vues/view-menuAdmin.php"; 
+            $msgUser = '<h3 class="text-center">Ajout effectué avec succès</h3>';
+            require_once  "vues/view-menuAdmin.php"; 
                            
           $msgEmail='';
           $nomUtilisateur = '';    

@@ -58,7 +58,7 @@ class DashboardController {
                 $idProfil = $_SESSION['idPrifil'];
                 switch ($idProfil) {
                     case 1:
-                        include 'vues/view-menuAdmin.php';
+                        include 'controleurs/UserCtrl.php';
                         break;
                     case 2:
                         if(isset($_GET['idTicket'])){

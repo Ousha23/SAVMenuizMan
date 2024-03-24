@@ -68,7 +68,7 @@
                     <?php } ?>
                             <div class="form-group">
                                 <label for="idDescription">Description de la réclamation</label>
-                                <textarea <?php if($ticketTraite) echo "readonly"?> class="form-control custom-input" name="description" id="idDescription" rows="5"<?php if(isset($ticketDetails['codeArticle'])) echo "readonly"?>><?= $ticketDetails['description'] ?? '' ?></textarea>
+                                <textarea <?php if(isset($ticketTraite) && $ticketTraite) echo "readonly"?> class="form-control custom-input" name="description" id="idDescription" rows="5"<?php if(isset($ticketDetails['codeArticle'])) echo "readonly"?>><?= $ticketDetails['description'] ?? '' ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         </div>
                 </div>
                 <?php } ?>
-                <?php if(!$ticketTraite){?>    
+                <?php if(isset($ticketTraite) && !$ticketTraite){?>    
                     <div class="form-group text-center">
                         <input type="hidden" name="action" value="modifierTicketMAJ">
                         <input type="submit" value ="Enregister la modification" class="btn btn-primary custom-submit-btn">
