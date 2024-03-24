@@ -9,7 +9,6 @@
             if (self::$bdd !== null) {
                 return self::$bdd;
             }
-    
             if (file_exists("param.ini")) {
                 $cheminFichier = "param.ini";
             } else {

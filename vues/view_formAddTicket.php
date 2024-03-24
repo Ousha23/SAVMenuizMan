@@ -11,7 +11,7 @@ ob_start(); ?>
                         <form  action="index.php?action=dashboard" method="POST">
                             <div class="row justify-content-center">
                                 <fieldset class="form-group col-md-6">
-                                    <label class="col-md-12" for="idDescription">Description</label><br>
+                                    <label class="col-md-12" for="idDescription">Description de la réclamation</label><br>
                                     <textarea class="col-md-10" id="idDescription" name="descTicket" required rows="4"><?php if(isset($descTicket)) echo $descTicket ;?></textarea>
                                 </fieldset>
                             </div>
