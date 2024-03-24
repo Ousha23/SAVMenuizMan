@@ -250,7 +250,7 @@
                 $msgErreur ="";
                 $idTicketSav = $_POST['idTicketSAV']; 
                 $ticketDetails = TicketMgr::getTicketDetails($idTicketSav);
-                var_dump($ticketDetails['statutTicket']);
+//var_dump($ticketDetails['statutTicket']);
                 if ($ticketDetails['statutTicket'] == "Traité"){
                     $ticketTraite = true;
                     $msgErreur ="Le Ticket ".$idTicketSav." est déjà traité, vous ne pouvez plus le modifier.";

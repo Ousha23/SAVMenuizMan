@@ -68,19 +68,19 @@
                     <?php } ?>
                             <div class="form-group">
                                 <label for="idDescription">Description de la réclamation</label>
-                                <textarea <?php if($ticketTraite) echo "readonly"?> class="form-control custom-input" name="description" id="idDescription" rows="5"<?php if(isset($ticketDetails['codeArticle'])) echo "readonly"?>><?= $ticketDetails['description'] ?? '' ?></textarea>
+                                <textarea <?php if(isset($ticketTraite) && $ticketTraite) echo "readonly"?> class="form-control custom-input" name="description" id="idDescription" rows="5"<?php if(isset($ticketDetails['codeArticle'])) echo "readonly"?>><?= $ticketDetails['description'] ?? '' ?></textarea>
                             </div>
                         </div>
                     </div>
                 <?php if(isset($ticketDetails['codeArticle'])) { ?>
                 <div class="row justify-content-center">
                         <div class="form-group">
-                            <?php if(!isset($ticketDetails['qteStockSAV']) || ((int)$ticketDetails['qteStockSAV'] !== 1)){?>
+                            
                                 <label for="idStockSAV">
                                     <input type="radio" id="idStockSAV" name="actionArticle" value="miseSAVStock">
                                     Article Retourné au SAV
                                 </label>
-                            <?php } else { ?>
+
                                 <label for="idMiseEnRebus">
                                     <input type="radio" id="idMiseEnRebus" name="actionArticle" value="miseEnRebus">
                                     Article mis en rebus
@@ -89,11 +89,11 @@
                                     <input type="radio" id="idReexpidie" name="actionArticle" value="reexpedition">
                                     Article réexpidié au client
                                 </label>
-                            <?php } ?>
+
                         </div>
                 </div>
                 <?php } ?>
-                <?php if(!$ticketTraite){?>    
+                <?php if(isset($ticketTraite) && !$ticketTraite){?>    
                     <div class="form-group text-center">
                         <input type="hidden" name="action" value="modifierTicketMAJ">
                         <input type="submit" value ="Enregister la modification" class="btn btn-primary custom-submit-btn">

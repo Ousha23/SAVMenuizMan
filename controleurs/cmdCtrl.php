@@ -8,8 +8,10 @@
     try {
         $tCommandes = CmdMgr::getDetailCmd($numCmdGet);
     } catch (Exception $e){
-        $msg ="Une erreur est survenue : Merci de contacter un Administrateur.";
+        $msgErreur ="Une erreur est survenue : Merci de contacter un Administrateur.";
         error_log('Erreur de récupération numCommande by numFact : ' . $e->getMessage());
+        require_once ("vues/view_formRecherche.php");
+        die();
     }
     if(count($tCommandes) < 1){
         $msg = "Le N° de Commande ne figure pas dans la base de données";
