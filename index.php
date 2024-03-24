@@ -32,10 +32,10 @@ class LoginController {
     public function handleAction($action) {
         switch ($action) {
             case 'login':
+                
                 require 'controleurs/loginCtrl.php'; 
-        break;
-    
-                break;
+            break;
+
             default:
             header('location: index.php?action=login');
            
@@ -49,15 +49,16 @@ class DashboardController {
     public function handleAction($action) {
         switch ($action) {
             case 'dashboard':
+                
                 if (!isset($_SESSION['emailUtilisateur']) || empty($_SESSION['emailUtilisateur'])) {
                     header('location: index.php?action=login');
                     exit;
                 } 
-        
+                
                 $idProfil = $_SESSION['idPrifil'];
                 switch ($idProfil) {
                     case 1:
-                        include 'vues/view-admin.php';
+                        include 'vues/view-menuAdmin.php';
                         break;
                     case 2:
                         if(isset($_GET['idTicket'])){

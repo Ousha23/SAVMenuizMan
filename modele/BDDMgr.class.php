@@ -1,7 +1,9 @@
 <?php
 
     require_once('ModelException.php');
-
+    /**
+     * Se connecte à la BDD
+     */
     class BDDMgr {
         private static $bdd;
     

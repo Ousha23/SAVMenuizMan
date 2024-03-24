@@ -75,12 +75,12 @@
                 <?php if(isset($ticketDetails['codeArticle'])) { ?>
                 <div class="row justify-content-center">
                         <div class="form-group">
-                            <?php if(!isset($ticketDetails['qteStockSAV']) || ((int)$ticketDetails['qteStockSAV'] !== 1)){?>
+                            
                                 <label for="idStockSAV">
                                     <input type="radio" id="idStockSAV" name="actionArticle" value="miseSAVStock">
                                     Article Retourné au SAV
                                 </label>
-                            <?php } else { ?>
+
                                 <label for="idMiseEnRebus">
                                     <input type="radio" id="idMiseEnRebus" name="actionArticle" value="miseEnRebus">
                                     Article mis en rebus
@@ -89,7 +89,7 @@
                                     <input type="radio" id="idReexpidie" name="actionArticle" value="reexpedition">
                                     Article réexpidié au client
                                 </label>
-                            <?php } ?>
+
                         </div>
                 </div>
                 <?php } ?>

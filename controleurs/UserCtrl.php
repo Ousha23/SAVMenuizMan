@@ -2,7 +2,7 @@
     require_once __DIR__ . '/../modele/UserMgr.class.php';
     //----------------afficher liste utilisateur-----
 
-    
+echo "je suis là";
     if($action == "dashboard"){
 
         if(isset($_GET['idUser'])){
