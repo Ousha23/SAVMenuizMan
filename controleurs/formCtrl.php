@@ -20,7 +20,7 @@
     $idDossier = null;
     $isTechSAV = false; // Par défaut, l'utilisateur n'est pas un technicien SAV
 
-    // Verifiez si l'utilisateur est un technicien SAV
+    // Recup l'id User;
     if (isset($_SESSION['idPrifil'])) {
         $idUser = $_SESSION['idPrifil'];
     }
@@ -52,8 +52,8 @@
      * Rederige vers le ctrleur avec les variables dont il a besoin
      *
      * @param [type] $action
-     * @param [type] $titrePage
      * @param [type] $msg
+     * @param [type] $tdata
      * @return void
      */
     function retourForm($action,$msg,$tdata){
@@ -62,7 +62,7 @@
         $actionPost = $action;
         $msgErreur = $msg;
         $tCommandes = $tdata;
-        require_once __DIR__ . "/../vues/view_form.php";
+        require_once __DIR__ . "/../vues/view_formRecherche.php";
         
     }
 
