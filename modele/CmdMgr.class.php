@@ -14,7 +14,7 @@
          */
         public static function getDetailCmd(int $idCmd):array {
             $bdd = BDDMgr::getBDD();
-            $sql = "SELECT cmd.numCommande,cmd.dateCommande, cmd.statutCommande, C.codeArticle, A.libArticle, C.qteArticle, A.garantie_Article,F.numFact, F.dateFact, Clt.nomClient, E.idExpedition,E.dateExp, Kit.libKitArticle  FROM `Commande` cmd
+            $sql = "SELECT DISTINCT cmd.numCommande,cmd.dateCommande, cmd.statutCommande, C.codeArticle, A.libArticle, C.qteArticle, A.garantie_Article,F.numFact, F.dateFact, Clt.nomClient, E.idExpedition,E.dateExp, Kit.libKitArticle  FROM `Commande` cmd
             LEFT JOIN `Contenir` C ON C.numCommande = cmd.numCommande
             LEFT JOIN `Article` A ON C.codeArticle = A.codeArticle
             LEFT JOIN Client Clt ON Clt.idClient = cmd.idClient
@@ -22,7 +22,7 @@
             LEFT JOIN Inclure I ON I.codeArticle = A.codeArticle
             LEFT JOIN KitLotArticles Kit ON Kit.idKitArticle = I.idKitArticle
             LEFT JOIN Facture F ON F.numCommande = cmd.numCommande
-            LEFT JOIN Concerner Con ON Con.codeArticle = C.codeArticle
+            LEFT JOIN Concerner Con ON E.idExpedition = Con.idExpedition
             WHERE cmd.numCommande = ?;";
 
             $resultat = $bdd->prepare($sql);

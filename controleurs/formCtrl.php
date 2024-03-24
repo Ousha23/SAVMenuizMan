@@ -21,12 +21,12 @@
     $isTechSAV = false; // Par défaut, l'utilisateur n'est pas un technicien SAV
 
     // Verifiez si l'utilisateur est un technicien SAV
-    if (isset($_SESSION['idPrifil']) && $_SESSION['idPrifil'] === '2') {
-        $isTechSAV = true;
+    if (isset($_SESSION['idPrifil'])) {
+        $idUser = $_SESSION['idPrifil'];
     }
 
     $actionPost = "accueil";
-    $idUser = 2;
+    //$idUser = 2;
     
 
     /**
@@ -106,7 +106,7 @@
             $idProfil = $_SESSION['idPrifil'];
             $ticketDetails = TicketMgr::getTicketDetails($idTicketSav);
             require_once __DIR__ . "/../vues/view_afficher_ticket.php";
-        } else if(isset($_GET['numCommande'])) { 
+        } else if(isset($_GET['numCommande']) && $_GET['numCommande'] !== "") { 
             $numCmdGet = $_GET['numCommande'];
             $idProfil = $_SESSION['idPrifil'];
             require_once ("controleurs/cmdCtrl.php");

@@ -16,11 +16,13 @@
         <div class="col-md-2">
             <div clas="row justify-content-center">
             <div class="d-flex flex-column align-items-center">
+            <?php if(isset($tCommandes[0]['numCommande'])) { ?>
                 <form class="col-md-4" method="post" action="index.php?action=dashboard">
                     <input type="hidden" name="numCommande" value="<?=$tCommandes[0]['numCommande']?>">
                     <input type="hidden" name="action" value="ajouterTicket">
                     <input type="submit" class="btn btn-primary custom-submit-btn px-3" value="Ouvrir un ticket">
                 </form>
+            <?php } ?>
             <?php if($actionPost == "listTicketsCmd") { ?>
                 </div>
                 </div>
@@ -54,11 +56,13 @@
         </tbody>
     </table>
             <?php } else {?>
+                <?php if(isset($tCommandes[0]['numCommande'])) {?>
                 <form class="col-md-4" method="post" action="index.php?action=dashboard">
                     <input type="hidden" name="numCommande" value="<?=$tCommandes[0]['numCommande']?>">
                     <input type="hidden" name="action" value="listTicketsCmd">
                     <input type="submit" class="btn btn-primary custom-submit-btn" value="Liste des Tickets">
                 </form>
+                <?php } ?>
             </div>
             </div>
             
@@ -99,12 +103,22 @@
     </table>
     <?php }?>
     <div class="row justify-content-center">
-        <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
+    <?php if($actionPost == "listTicketsCmd") { ?>
+        <div class="col-md-6 text-right ">
+            <a href="index.php?action=dashboard&numCommande=<?=$tCommandes[0]['numCommande']?>" class="btn btn-primary custom-submit-btn ">Retour à la page précédente</a>
+        </div>
+        <div class="col-md-6 text-left ">
+    <?php } ?>
+            <a href="index.php?action=dashboard" class="btn btn-primary custom-submit-btn ">Retour à la page d'accueil</a>
+    
+        </div>
     </div>
 </main>
 <?php
     $connexion = $_SESSION['nomUtilisateur'];
-    $pageTitle = "Détail de la commande N° : ".$tCommandes[0]['numCommande'];
+    if(isset($tCommandes[0]['numCommande'])){
+        $pageTitle = "Détail de la commande N° : ".$tCommandes[0]['numCommande'];
+    } else $pageTitle = "Commande inexistante";
     $siteTitle = "Détails Commande";
     $contenu = ob_get_contents(); 
     ob_end_clean();              
