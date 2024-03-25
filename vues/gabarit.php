@@ -65,7 +65,7 @@
 
     <div class="row justify-content-center">
       <div class="col-md-6 text-center">
-        <p class=""><i class="far fa-copyright "></i> By Bouchra, Leila et Thierry</p>
+        <p class=""><i class="far fa-copyright "></i>2024 By Bouchra, Leila et Thierry</p>
       </div>
     </div>
   </footer>
