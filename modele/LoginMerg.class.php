@@ -11,7 +11,7 @@ function login($email, $password) {
     $pdo = BDDMgr::getBDD();
     
     // Préparez la requête
-    $sql = 'SELECT U.nomUtilisateur, U.prenomUtilisateur, U.emailUtilisateur, U.mdpUtilisateur, U.idProfil, P.libProfil
+    $sql = 'SELECT idUtilisateur, U.nomUtilisateur, U.prenomUtilisateur, U.emailUtilisateur, U.mdpUtilisateur, U.idProfil, P.libProfil
             FROM Utilisateur U
             INNER JOIN Profil P ON U.idProfil = P.idProfil
             WHERE U.emailUtilisateur = :emailUtilisateur';

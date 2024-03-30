@@ -65,14 +65,14 @@
 
     <div class="row justify-content-center">
       <div class="col-md-6 text-center">
-        <p class=""><i class="far fa-copyright "></i> By Bouchra, Leila et Thierry</p>
+        <p class=""><i class="far fa-copyright "></i>2024 By Bouchra, Leila et Thierry</p>
       </div>
     </div>
   </footer>
   
 
   <!-- Scripts jQuery et DataTables -->
-  <script src="vues/js/style.js"></script>
+  <!-- <script src="vues/js/style.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>

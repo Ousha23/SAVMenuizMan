@@ -17,6 +17,17 @@ switch ($action) {
     case 'dashboard':
         $controller = new DashboardController();
         break;
+    case 'profile':
+        if (!isset($_SESSION['emailUtilisateur']) || empty($_SESSION['emailUtilisateur'])) {
+            header('location: index.php?action=login');
+            exit;
+        }
+        include 'vues/view-profile.php';
+        break;
+    case 'logout':
+        logout();
+        header('location: index.php?action=login');
+        exit;
     
     default:
         // Rediriger vers la page de connexion 
@@ -25,7 +36,9 @@ switch ($action) {
 }
 
 // Exécuter l'action appropriée
-$controller->handleAction($action);
+if(isset($controller)) {
+    $controller->handleAction($action);
+}
 
 // Classe LoginController
 class LoginController {
@@ -83,17 +96,7 @@ class DashboardController {
                 }
                 break;
          
-            case 'profile':
-                if (!isset($_SESSION['emailUtilisateur']) || empty($_SESSION['emailUtilisateur'])) {
-                    header('location: index.php?action=login');
-                    exit;
-                }
-                include 'vues/view-profile.php';
-                break;
-            case 'logout':
-                logout();
-        header('location: index.php?action=login');
-        exit;
+            
       
             default:
             require 'controleurs/formCtrl.php';
