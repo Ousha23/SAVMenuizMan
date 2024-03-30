@@ -21,14 +21,14 @@
     $isTechSAV = false; // Par défaut, l'utilisateur n'est pas un technicien SAV
 
     // Recup l'id User;
-    if (isset($_SESSION['idPrifil'])) {
-        $idUser = $_SESSION['idPrifil'];
+    if (isset($_SESSION['idUtilisateur'])) {
+        $idUser = $_SESSION['idUtilisateur'];
     }
 
     $actionPost = "accueil";
     //$idUser = 2;
     
-
+//var_dump($idUser);
     /**
      * Verifie si le champs Txt n'est pas vide
      *
@@ -100,18 +100,23 @@
         }
     }
 
+    // redirection et logique selon l'action
     if ($action == "dashboard") {
+
         if(isset($_GET['idTicket'])) {
             $idTicketSav = $_GET['idTicket']; 
             $idProfil = $_SESSION['idPrifil'];
             $ticketDetails = TicketMgr::getTicketDetails($idTicketSav);
             require_once __DIR__ . "/../vues/view_afficher_ticket.php";
+
         } else if(isset($_GET['numCommande']) && $_GET['numCommande'] !== "") { 
             $numCmdGet = $_GET['numCommande'];
             $idProfil = $_SESSION['idPrifil'];
             require_once ("controleurs/cmdCtrl.php");
+
         } else if(isset($_GET['nomClient']) || isset($_GET['idFact'])){
             require_once ("vues/view_enConstr.php");
+
         } else if(isset($_POST['action'])){
         $actionPost = $_POST['action'];
 //var_dump($actionPost);

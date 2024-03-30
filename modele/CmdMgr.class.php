@@ -6,6 +6,7 @@
     require_once "BDDMgr.class.php";
 
     class CmdMgr {
+
         /**
          * Recupère tous les détails liées à un commande depuis la BDD et retourne un tableau utilisé dans la vue_consultCmd
          *

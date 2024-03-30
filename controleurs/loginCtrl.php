@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = login($email, $password);
 
     if ($user) {
+        $_SESSION['idUtilisateur'] = $user['idUtilisateur'];
         $_SESSION['emailUtilisateur'] = $email;
         $_SESSION['nomUtilisateur'] = $user['nomUtilisateur'];
         $_SESSION['idPrifil'] = $user['idProfil'];

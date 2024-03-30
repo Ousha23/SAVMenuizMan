@@ -26,6 +26,7 @@
     
             extract($tParametres['BDD']);
             $dsn = 'mysql:host='.$host.';port='.$port.';dbname='.$dbname.';charset=utf8';
+            error_log('test');
             self::$bdd = new PDO($dsn, $login, $mdp, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             return self::$bdd;
             

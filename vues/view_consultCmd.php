@@ -94,7 +94,9 @@
                         <input type="hidden" name="codeArticle" value="<?=$dataCommande['codeArticle']?>">
                         <input type="hidden" name="numCommande" value="<?=$dataCommande['numCommande']?>">
                         <input type="hidden" name="action" value="ajouterTicket">
+                        <?php if(isset($dataCommande['idExpedition'])) { ?>
                         <input type="submit" class="btn btn-primary custom-submit-btn" value="Ouvrir Ticket">
+                        <?php } ?>
                     </form>
                 </td>
             </tr>
